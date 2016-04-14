@@ -41,7 +41,9 @@ var globals = {
   },
   
   keyDown: {
-    "space": false
+    "space": false,
+    "x": false,
+    "y": false
   },
   
   fileName: null
@@ -121,9 +123,20 @@ $(document).ready(function() {
 });
 
 function panView(delta, speed) {
+  var horizontalPan = globals.keyDown.x;
+  var verticalPan = globals.keyDown.y;
+  
   var viewCenter = paper.view.center;
   
   var offset = new Point(-delta.x, -delta.y);
+  
+  if (horizontalPan) {
+    offset.y = 0;
+  }
+  else if (verticalPan) {
+    offset.x = 0;
+  }
+  
   offset = offset.multiply(speed ? speed : 0.4);
   viewCenter = viewCenter.add(offset);
   
@@ -342,7 +355,7 @@ function onMouseDrag(event) {
     if (globals.selected.isSegment) {
       ellipseChanged = (globals.selected.path.shapeType === "ellipse");
       
-      if (globals.selected.draggable.index % 2 == 0) {
+      if (globals.selected.draggable.index % 2 === 0) {
         var firstPoints = [globals.selected.draggable.point];
         var secondPoints = [globals.selected.draggable.next.next.point];
         
@@ -374,8 +387,15 @@ function onMouseDrag(event) {
       }
     }
     else {
-      globals.selected.draggable.x += event.delta.x;
-      globals.selected.draggable.y += event.delta.y;
+      var horizontalPan = globals.keyDown.x;
+      var verticalPan = globals.keyDown.y;
+  
+      if (!verticalPan) {
+        globals.selected.draggable.x += event.delta.x;
+      }
+      if (!horizontalPan) {
+        globals.selected.draggable.y += event.delta.y;
+      }
       
       updatePathPosition();
     }
@@ -438,6 +458,12 @@ function onKeyDown(event) {
   if (event.key === "space") {
     globals.keyDown.space = true;
   }
+  else if (event.key === "x") {
+    globals.keyDown.x = true;
+  }
+  else if (event.key === "y") {
+    globals.keyDown.y = true;
+  }
 }
 
 function onKeyUp(event) {
@@ -448,6 +474,12 @@ function onKeyUp(event) {
   }
   else if (event.key === "space") {
     globals.keyDown.space = false;
+  }
+  else if (event.key === "x") {
+    globals.keyDown.x = false;
+  }
+  else if (event.key === "y") {
+    globals.keyDown.y = false;
   }
 }
 
