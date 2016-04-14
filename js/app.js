@@ -11,6 +11,8 @@ var globals = {
   bgImages: [],
   curBg: 0,
   
+  origins: [],
+  
   onionSettings: {
     enabled: false,
     transparency: 30,

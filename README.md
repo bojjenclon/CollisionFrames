@@ -2,6 +2,14 @@
 
 This is a small program made with Electron to help setup collision shapes for animations in a game.
 
+---
+
+Preview:
+
+![Preview image of Collision Frames application](/preview.png?raw=true)
+
+---
+
 Current Features:
 * Open multiple images at once
 * Add images to the currently opened list of images
@@ -11,9 +19,13 @@ Current Features:
 * Basic onion skinning
 * Preview the current animation
 
+---
+
 Current Limitations:
 * No custom polygons
 * Animations must consist of individual image files
+
+---
 
 Planned Features:
 * Ability to change the origin point of each image
