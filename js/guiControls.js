@@ -212,7 +212,9 @@ function arrangeImages(changeToImage) { // eslint-disable-line no-unused-vars
     return;
   }
   
-  var modalRoot = document.createElement("ol");
+  changeToImage = changeToImage ? changeToImage : 0;
+  
+  var modalRoot = document.createElement("div");
   var jRoot = $(modalRoot);
   jRoot.attr("id", "modal");
   jRoot.addClass("mui--no-user-select");
@@ -273,9 +275,8 @@ function arrangeImages(changeToImage) { // eslint-disable-line no-unused-vars
     globals.bgImages = sortedBgImages;
     globals.thumbnails = sortedThumbnails;
     
-    if (changeToImage != null) {
-      changeBackgroundRaster(changeToImage);
-    }
+    updateCurBgIndex(changeToImage);
+    changeBackgroundRaster(changeToImage);
     
     mui.overlay("off");
   });
@@ -357,6 +358,175 @@ function closeProject() { // eslint-disable-line no-unused-vars
   
   $("#rightMenu").css("visibility", "hidden");
   hideControlButtons();
+}
+
+function onionSettings() { // eslint-disable-line no-unused-vars
+  if (globals.bgImages.length <= 1) {
+    return;
+  }
+  
+  var modalRoot = document.createElement("div");
+  var jRoot = $(modalRoot);
+  jRoot.attr("id", "modal");
+  jRoot.addClass("mui--no-user-select");
+  
+  // construct header
+  
+  var modalHeader = $("<div id='modalHeader'></div>'");
+  modalHeader.append("<div>Onion Skin Settings</div>");
+  
+  // construct content
+  
+  var modalContent = $("<div id='modalContent' class='mui-container mui--text-center'></div>'");
+  
+  var modalOnionEnabled = $("<div class='mui-checkbox'>" +
+                              "<label>" +
+                                "<input type='checkbox'" + (globals.onionSettings.enabled ? "checked" : "") + ">" +
+                                "Enable Onion Skin" +
+                              "</label>" +
+                            "</div>");
+  modalContent.append(modalOnionEnabled);
+  
+  modalContent.append("<div class='mui-divider'></div><br />");
+  
+  // transparency inputs
+  
+  var transparencySlider = document.createElement("div");
+  noUiSlider.create(transparencySlider, {
+    start: [globals.onionSettings.transparency],
+    step: 1,
+    range: {
+      "min": 0,
+      "max": 100
+    },
+    animate: false
+  });
+  if (!globals.onionSettings.enabled) {
+    transparencySlider.setAttribute("disabled", true);
+  }
+  modalContent.append(transparencySlider);
+  
+  var jTransparencySlider = $(transparencySlider);
+  jTransparencySlider.attr("id", "transparencySlider");
+  jTransparencySlider.addClass("noUi-extended");
+  
+  var transparencyInput = $("<input type='number' id='transparencyInput' class='mui--text-dark' min='0' max='100' step='1' value='" + globals.onionSettings.transparency + "' " + (globals.onionSettings.enabled ? "" : "disabled") + " />");
+  modalContent.append(transparencyInput);
+  
+  // misc inputs
+  
+  var modalOnionLoop = $("<div class='mui-checkbox'>" +
+                              "<label>" +
+                                "<input type='checkbox'" + (globals.onionSettings.loop ? "checked" : "") + ">" +
+                                "Loop" +
+                              "</label>" +
+                            "</div>");
+  modalContent.append(modalOnionLoop);
+  
+  // connect events
+  
+  modalOnionEnabled.change(function() {
+    var checkbox = modalOnionEnabled.find("input[type='checkbox']");
+    var value = checkbox.prop("checked");
+    
+    if (value) {
+      transparencySlider.removeAttribute("disabled");
+    }
+    else {
+      transparencySlider.setAttribute("disabled", true);
+    }
+    
+    transparencyInput.prop("disabled", !value);
+    
+    globals.onionSettings.enabled = value;
+    globals.onionRaster.visible = value;
+    
+    paper.view.draw();
+  });
+  
+  transparencySlider.noUiSlider.on("update", function() {
+    var value = transparencySlider.noUiSlider.get();
+    
+    transparencyInput.val(Math.floor(value));
+    
+    globals.onionSettings.transparency = value;
+    globals.onionRaster.opacity = value / 100;
+    
+    paper.view.draw();
+  });
+  
+  transparencyInput.bind("input", function() {
+    var value = transparencyInput.val();
+    
+    transparencySlider.noUiSlider.set(value);
+    
+    globals.onionSettings.transparency = value;
+    globals.onionRaster.opacity = value / 100;
+    
+    paper.view.draw();
+  });
+  
+  modalOnionLoop.change(function() {
+    var checkbox = modalOnionLoop.find("input[type='checkbox']");
+    var value = checkbox.prop("checked");
+    
+    globals.onionSettings.loop = value;
+    
+    if (globals.curBg === 0) {
+      globals.onionRaster.visible = value;
+      
+      paper.view.draw();
+    }
+  });
+  
+  // construct footer
+  
+  var modalFooter = $("<div id='modalFooter'></div>'");
+ 
+  var doneButton = $("<button class='mui-btn mui-btn--primary'>Done</button>");
+  doneButton.click(function() {
+    mui.overlay("off");
+  });
+  
+  modalFooter.append(doneButton);
+  
+  //construct modal
+  jRoot.append(modalHeader);
+  jRoot.append(modalContent);
+  jRoot.append(modalFooter);
+  
+  jRoot.css("visibility", "hidden");
+  $("body").append(jRoot);
+  
+  $(".modalSortable").sortable({
+    hoverClass: "is-hovered"
+  });
+  
+  // adjust content size/position
+  modalContent.css("top", modalHeader.outerHeight(true) + "px");
+  modalContent.css("height", (jRoot.height() - modalHeader.outerHeight(true) - modalFooter.outerHeight(true)) + "px");
+  
+  // center modal window
+  var xPos = $(window).width() / 2 - jRoot.width() / 2;
+  var yPos = $(window).height() / 2 - jRoot.height() / 2;
+  
+  jRoot.css("visibility", "visible");
+  
+  modalRoot.style.left = xPos + "px";
+  modalRoot.style.top = yPos + "px";
+  
+  var onModalClose = function() {
+    
+  };
+
+  var options = {
+    "keyboard": false,
+    "static": true,
+    "onclose": onModalClose
+  };
+
+  // show modal
+  mui.overlay("on", options, modalRoot);
 }
 
 function updatePathPosition() { // eslint-disable-line no-unused-vars

@@ -16,7 +16,7 @@ app.on("ready", function() {
   }); 
   
   // disable menu bar
-  mainWindow.setMenu(null);
+  //mainWindow.setMenu(null);
   
   mainWindow.loadUrl("file://" + __dirname + "/index.html"); 
   

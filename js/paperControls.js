@@ -25,6 +25,41 @@ function changeBackgroundRaster(index) { // eslint-disable-line no-unused-vars
   
   paper.view.zoom = globals.zoomLevels[globals.curBg];
   centerView();
+  
+  changeOnionRaster();
+}
+
+function changeOnionRaster(index) { // eslint-disable-line no-unused-vars
+  if (globals.bgImages.length <= 1) {
+    return;
+  }
+  
+  var overrideVisibility = null;
+  if (index === undefined) {
+    index = globals.curBg - 1;
+    
+    if (index < 0) {
+      index = globals.bgImages.length - 1;
+      
+      if (!globals.onionSettings.loop) {
+        overrideVisibility = false;
+      }
+    }
+  }
+  
+  var image = globals.bgImages[index];
+  
+  if (globals.onionRaster) {
+    globals.onionRaster.remove();
+  }
+  
+  globals.onionRaster = new Raster(image);
+  
+  globals.onionRaster.visible = overrideVisibility == null ? globals.onionSettings.enabled : overrideVisibility;
+  globals.onionRaster.opacity = globals.onionSettings.transparency / 100;
+  
+  globals.onionRaster.moveAbove(globals.bgRaster);
+  
   paper.view.draw();
 }
 

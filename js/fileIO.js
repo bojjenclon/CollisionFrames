@@ -3,7 +3,7 @@ var dialog = remote.dialog;
 var fs = require("fs");
 
 function openFile (doArrangeImages) { // eslint-disable-line no-unused-vars
-  doArrangeImages = doArrangeImages !== false; // default to true
+  // doArrangeImages = doArrangeImages !== false; // default to true
   
   dialog.showOpenDialog({
     "filters": [
@@ -107,7 +107,7 @@ function addImages(doArrangeImages) { // eslint-disable-line no-unused-vars
     return openFile(doArrangeImages);
   }
   
-  doArrangeImages = doArrangeImages !== false; // default to true
+  // doArrangeImages = doArrangeImages !== false; // default to true
   
   dialog.showOpenDialog({
     "filters": [

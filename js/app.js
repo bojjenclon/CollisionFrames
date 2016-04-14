@@ -6,9 +6,16 @@ var globals = {
   curImage: 0,
   
   bgRaster: null,
+  onionRaster: null,
   
   bgImages: [],
   curBg: 0,
+  
+  onionSettings: {
+    enabled: false,
+    transparency: 30,
+    loop: true
+  },
   
   thumbnails: [],
   
@@ -127,7 +134,7 @@ function onMouseDown(event) {
   
   var selectedThisFrame = false;
   if (event.item) {
-    if (event.item == globals.bgRaster) {
+    if (event.item == globals.bgRaster || event.item == globals.onionRaster) {
       deselectPath();
       
       return;
