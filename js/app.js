@@ -267,9 +267,6 @@ function dragLeftRight(firstPoints, secondPoints, delta) {
     
     firstPoint.x += dif;
     secondPoint.x -= dif;
-    
-    firstPoint.x = Math.round(firstPoint.x);
-    secondPoint.x = Math.round(secondPoint.x);
   }
   
   updatePathDimensions();
@@ -330,9 +327,6 @@ function dragUpDown(firstPoints, secondPoints, delta) {
     
     firstPoint.y += dif;
     secondPoint.y -= dif;
-    
-    firstPoint.y = Math.round(firstPoint.y);
-    secondPoint.y = Math.round(secondPoint.y);
   }
   
   updatePathDimensions();
@@ -382,9 +376,6 @@ function onMouseDrag(event) {
     else {
       globals.selected.draggable.x += event.delta.x;
       globals.selected.draggable.y += event.delta.y;
-      
-      globals.selected.draggable.x = Math.round(globals.selected.draggable.x);
-      globals.selected.draggable.y = Math.round(globals.selected.draggable.y);
       
       updatePathPosition();
     }

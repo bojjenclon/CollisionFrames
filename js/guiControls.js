@@ -24,7 +24,7 @@ function onWidthKeyUp(event) {
     return;
   }
   
-  var newWidth = parseInt($("#widthInput").val());
+  var newWidth = parseFloat($("#widthInput").val());
   
   if (isNaN(newWidth)) {
     return;
@@ -44,7 +44,7 @@ function onWidthKeyUp(event) {
 }
 
 function onWidthChange(event) { 
-  var newWidth = parseInt($("#widthInput").val());
+  var newWidth = parseFloat($("#widthInput").val());
   
   if (isNaN(newWidth)) {
     return;
@@ -70,14 +70,14 @@ function onHeightKeyUp(event) {
     return;
   }
   
-  var newHeight =  parseInt($("#heightInput").val());
+  var newHeight =  parseFloat($("#heightInput").val());
   
   if (isNaN(newHeight)) {
     return;
   }
   
   var bounds = globals.selected.path.bounds.clone();
-  bounds.height = parseInt(newHeight);
+  bounds.height = newHeight;
   
   var center = globals.selected.path.position.clone();
   center.x -= bounds.width / 2;
@@ -90,14 +90,14 @@ function onHeightKeyUp(event) {
 }
 
 function onHeightChange(event) { 
-  var newHeight =  parseInt($("#heightInput").val());
+  var newHeight =  parseFloat($("#heightInput").val());
   
   if (isNaN(newHeight)) {
     return;
   }
   
   var bounds = globals.selected.path.bounds.clone();
-  bounds.height = parseInt(newHeight);
+  bounds.height = newHeight;
   
   var center = globals.selected.path.position.clone();
   center.x -= bounds.width / 2;
@@ -116,7 +116,7 @@ function onXKeyUp(event) {
     return;
   }
   
-  var newX = parseInt($("#xInput").val());
+  var newX = parseFloat($("#xInput").val());
   
   if (isNaN(newX)) {
     return;
@@ -135,7 +135,7 @@ function onXKeyUp(event) {
 }
 
 function onXChange(event) { 
-  var newX = parseInt($("#xInput").val());
+  var newX = parseFloat($("#xInput").val());
   
   if (isNaN(newX)) {
     return;
@@ -160,7 +160,7 @@ function onYKeyUp(event) {
     return;
   }
   
-  var newY = parseInt($("#yInput").val());
+  var newY = parseFloat($("#yInput").val());
   
   if (isNaN(newY)) {
     return;
@@ -179,7 +179,7 @@ function onYKeyUp(event) {
 }
 
 function onYChange(event) { 
-  var newY = parseInt($("#yInput").val());
+  var newY = parseFloat($("#yInput").val());
   
   if (isNaN(newY)) {
     return;
@@ -670,7 +670,10 @@ function previewAnimation() {
 }
 
 function updatePathPosition() { 
-  var position = globals.selected.path.position.round();
+  var position = globals.selected.path.position;
+  
+  position.x = Math.round(position.x * 100) / 100;
+  position.y = Math.round(position.y * 100) / 100;
   
   $("#xInput").val(position.x);
   $("#yInput").val(position.y);
@@ -679,8 +682,8 @@ function updatePathPosition() {
 function updatePathDimensions() { 
   var bounds = globals.selected.path.bounds;
   
-  bounds.width = Math.round(bounds.width);
-  bounds.height = Math.round(bounds.height);
+  bounds.width = Math.round(bounds.width * 100) / 100;
+  bounds.height = Math.round(bounds.height * 100) / 100;
   
   $("#widthInput").val(bounds.width);
   $("#heightInput").val(bounds.height);

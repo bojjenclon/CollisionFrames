@@ -4,7 +4,7 @@ This is a small program made with Electron to help setup collision shapes for an
 
 ---
 
-Preview:
+## Preview: ##
 
 ![Preview image of Collision Frames application](/preview.png?raw=true)
 
