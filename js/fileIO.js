@@ -72,9 +72,12 @@ function openFile (doArrangeImages) { // eslint-disable-line no-unused-vars
       }
     };
     
-    var imageSrcs = [];
-    for (var i = 0; i < fileNames.length; ++i) {
-      var fileName = fileNames[i];
+    fileNames.sort(naturalSort);
+    
+    var imageSrcs = new Array(fileNames.length);
+    var filesLoaded = 0;
+    fileNames.forEach(function(item, index) {
+      var fileName = fileNames[index];
       var fileExt = fileName.substr(fileName.lastIndexOf("."));
       
       var dataExt;
@@ -92,13 +95,14 @@ function openFile (doArrangeImages) { // eslint-disable-line no-unused-vars
         
         var src = "data:image/" + dataExt + ";base64," + base64;
         
-        imageSrcs.push(src);
+        imageSrcs[index] = src;
+        filesLoaded++;
         
-        if (imageSrcs.length === fileNames.length) {
+        if (filesLoaded === fileNames.length) {
           loader(imageSrcs, loadImage, allImagesLoaded);
         }
       });
-    }
+    });
   });
 }
 
@@ -156,9 +160,10 @@ function addImages(doArrangeImages) { // eslint-disable-line no-unused-vars
       }
     };
     
-    var imageSrcs = [];
-    for (var i = 0; i < fileNames.length; ++i) {
-      var fileName = fileNames[i];
+    var imageSrcs = new Array(fileNames.length);
+    var filesLoaded = 0;
+    fileNames.forEach(function(item, index) {
+      var fileName = fileNames[index];
       var fileExt = fileName.substr(fileName.lastIndexOf("."));
       
       var dataExt;
@@ -176,13 +181,14 @@ function addImages(doArrangeImages) { // eslint-disable-line no-unused-vars
         
         var src = "data:image/" + dataExt + ";base64," + base64;
         
-        imageSrcs.push(src);
+        imageSrcs[index] = src;
+        filesLoaded++;
         
-        if (imageSrcs.length === fileNames.length) {
+        if (filesLoaded === fileNames.length) {
           loader(imageSrcs, loadImage, allImagesLoaded);
         }
       });
-    }
+    });
   });
 }
 
