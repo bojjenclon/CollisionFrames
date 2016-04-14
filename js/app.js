@@ -17,6 +17,12 @@ var globals = {
     loop: true
   },
   
+  animationSettings: {
+    currentFrame: 0,
+    frameDelay: 80,
+    loop: true
+  },
+  
   thumbnails: [],
   
   pathTypeCount: [],

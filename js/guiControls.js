@@ -498,9 +498,149 @@ function onionSettings() { // eslint-disable-line no-unused-vars
   jRoot.css("visibility", "hidden");
   $("body").append(jRoot);
   
-  $(".modalSortable").sortable({
-    hoverClass: "is-hovered"
+  // adjust content size/position
+  modalContent.css("top", modalHeader.outerHeight(true) + "px");
+  modalContent.css("height", (jRoot.height() - modalHeader.outerHeight(true) - modalFooter.outerHeight(true)) + "px");
+  
+  // center modal window
+  var xPos = $(window).width() / 2 - jRoot.width() / 2;
+  var yPos = $(window).height() / 2 - jRoot.height() / 2;
+  
+  jRoot.css("visibility", "visible");
+  
+  modalRoot.style.left = xPos + "px";
+  modalRoot.style.top = yPos + "px";
+  
+  var onModalClose = function() {
+    
+  };
+
+  var options = {
+    "keyboard": false,
+    "static": true,
+    "onclose": onModalClose
+  };
+
+  // show modal
+  mui.overlay("on", options, modalRoot);
+}
+
+function previewAnimation() { // eslint-disable-line no-unused-vars
+  if (globals.bgImages.length <= 1) {
+    return;
+  }
+  
+  var modalRoot = document.createElement("div");
+  var jRoot = $(modalRoot);
+  jRoot.attr("id", "modal");
+  jRoot.addClass("mui--no-user-select");
+  
+  // construct header
+  
+  var modalHeader = $("<div id='modalHeader'></div>'");
+  modalHeader.append("<div>Preview Animation</div>");
+  
+  // construct content
+  
+  var modalContent = $("<div id='modalContent' class='mui-container mui--text-center'></div>'");
+  var modalImageContainer = $("<div id='animationContainer'></div>");
+  
+  modalContent.append(modalImageContainer);
+  
+  modalContent.append("<div class='mui-divider'></div><br />");
+  
+  // animation timing inputs
+  
+  var frameDelaySlider = document.createElement("div");
+  noUiSlider.create(frameDelaySlider, {
+    start: [globals.animationSettings.frameDelay],
+    step: 1,
+    range: {
+      "min": 1,
+      "max": 250
+    },
+    animate: false
   });
+  modalContent.append(frameDelaySlider);
+  
+  var jFrameDelaySlider = $(frameDelaySlider);
+  jFrameDelaySlider.attr("id", "frameDelaySlider");
+  jFrameDelaySlider.addClass("noUi-extended");
+  
+  var frameDelayInputRow = $("<label>Frame Delay (ms): <input type='number' id='frameDelayInput' class='mui--text-dark' min='1' max='250' step='1' value='" + globals.animationSettings.frameDelay + "' /></label>");
+  modalContent.append(frameDelayInputRow);
+  
+  var frameDelayInput = frameDelayInputRow.find("input[type='number']");
+  
+  // events
+  
+  var nextDrawFrame = null;
+  var draw = function() {
+    modalImage = $(globals.bgImages[globals.animationSettings.currentFrame]).clone();
+    modalImage.attr("id", "animationPreviewImage");
+    modalImageContainer.html(modalImage);
+    
+    globals.animationSettings.currentFrame++;
+    
+    if (globals.animationSettings.currentFrame >= globals.bgImages.length) {
+      globals.animationSettings.currentFrame = 0;
+      
+      if (!globals.animationSettings.loop) {
+        return;
+      }
+    }
+    
+    nextDrawFrame = setTimeout(draw, globals.animationSettings.frameDelay);
+  };
+  
+  draw();
+  
+  frameDelaySlider.noUiSlider.on("update", function() {
+    var value = frameDelaySlider.noUiSlider.get();
+    
+    frameDelayInput.val(Math.floor(value));
+    
+    globals.animationSettings.frameDelay = value;
+    
+    if (nextDrawFrame) {
+      clearTimeout(nextDrawFrame);
+      
+      nextDrawFrame = setTimeout(draw, globals.animationSettings.frameDelay);
+    }
+  });
+  
+  frameDelayInput.bind("input", function() {
+    var value = frameDelayInput.val();
+    
+    frameDelaySlider.noUiSlider.set(value);
+    
+    globals.animationSettings.frameDelay = value;
+    
+    if (nextDrawFrame) {
+      clearTimeout(nextDrawFrame);
+      
+      nextDrawFrame = setTimeout(draw, globals.animationSettings.frameDelay);
+    }
+  });
+  
+  // construct footer
+  
+  var modalFooter = $("<div id='modalFooter'></div>'");
+ 
+  var doneButton = $("<button class='mui-btn mui-btn--primary'>Done</button>");
+  doneButton.click(function() {
+    mui.overlay("off");
+  });
+  
+  modalFooter.append(doneButton);
+  
+  //construct modal
+  jRoot.append(modalHeader);
+  jRoot.append(modalContent);
+  jRoot.append(modalFooter);
+  
+  jRoot.css("visibility", "hidden");
+  $("body").append(jRoot);
   
   // adjust content size/position
   modalContent.css("top", modalHeader.outerHeight(true) + "px");

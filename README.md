@@ -9,6 +9,7 @@ Current Features:
 * Add primitive collision shapes (rectangle and ellipse) per image
 * Save info for all images in the "animation" to a JSON file
 * Basic onion skinning
+* Preview the current animation
 
 Current Limitations:
 * No custom polygons

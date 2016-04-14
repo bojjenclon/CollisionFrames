@@ -100,3 +100,14 @@
 #transparencyInput {
   margin-top: 10px;
 }
+
+/* Preview Animation */
+
+#animationPreviewImage {
+  max-width: 100%;
+  height: auto;
+}
+
+#animationContainer {
+  margin-bottom: 10px;
+}
