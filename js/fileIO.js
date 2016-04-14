@@ -2,7 +2,7 @@ var remote = require("remote");
 var dialog = remote.dialog;
 var fs = require("fs");
 
-function openFile (doArrangeImages) { // eslint-disable-line no-unused-vars
+function openFile (doArrangeImages) { 
   // doArrangeImages = doArrangeImages !== false; // default to true
   
   dialog.showOpenDialog({
@@ -59,7 +59,7 @@ function openFile (doArrangeImages) { // eslint-disable-line no-unused-vars
       globals.zoomLevels[i] = 1;
     };
     
-    var allImagesLoaded = function(images) { // eslint-disable-line no-unused-vars
+    var allImagesLoaded = function(images) { 
       $("#rightMenu").css("visibility", "visible");
       showControlButtons();
       updateCurBgIndex(0);
@@ -106,7 +106,7 @@ function openFile (doArrangeImages) { // eslint-disable-line no-unused-vars
   });
 }
 
-function addImages(doArrangeImages) { // eslint-disable-line no-unused-vars
+function addImages(doArrangeImages) { 
   if (globals.bgImages.length === 0) {
     return openFile(doArrangeImages);
   }
@@ -147,7 +147,7 @@ function addImages(doArrangeImages) { // eslint-disable-line no-unused-vars
       globals.zoomLevels.push(1);
     };
     
-    var allImagesLoaded = function(images) { // eslint-disable-line no-unused-vars
+    var allImagesLoaded = function(images) { 
       $("#rightMenu").css("visibility", "visible");
       showControlButtons();
       updateCurBgIndex(0);
@@ -224,7 +224,7 @@ function constructJSON() {
   return jsonString;
 }
 
-function save() { // eslint-disable-line no-unused-vars
+function save() { 
   if (globals.fileName) {
     var jsonString = constructJSON();
     

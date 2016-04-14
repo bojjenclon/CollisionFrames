@@ -1,6 +1,6 @@
 //https://stackoverflow.com/questions/8682085/can-i-sync-up-multiple-image-onload-calls
 
-function loader(items, callback, allDone) { // eslint-disable-line no-unused-vars
+function loader(items, callback, allDone) { 
   if (!items) {
     return;
   }
@@ -23,7 +23,7 @@ function loader(items, callback, allDone) { // eslint-disable-line no-unused-var
   }
 }
 
-function loadImage(items, i, onComplete) { // eslint-disable-line no-unused-vars
+function loadImage(items, i, onComplete) { 
   var onLoad = function (e) {
     e.target.removeEventListener("load", onLoad);
     

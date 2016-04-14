@@ -1,4 +1,4 @@
-function changeBackgroundRaster(index) { // eslint-disable-line no-unused-vars
+function changeBackgroundRaster(index) { 
   $("#paperCanvas").show();
   
   deselectPath();
@@ -29,7 +29,7 @@ function changeBackgroundRaster(index) { // eslint-disable-line no-unused-vars
   changeOnionRaster();
 }
 
-function changeOnionRaster(index) { // eslint-disable-line no-unused-vars
+function changeOnionRaster(index) { 
   if (globals.bgImages.length <= 1) {
     return;
   }
@@ -63,7 +63,7 @@ function changeOnionRaster(index) { // eslint-disable-line no-unused-vars
   paper.view.draw();
 }
 
-function centerView() { // eslint-disable-line no-unused-vars  
+function centerView() {   
   paper.view.center = new Point(0, $("#footerBackground").outerHeight(true) / 2);
 }
 
@@ -99,7 +99,7 @@ function deselectPath() {
   $("#shapeControls").hide();
 }
 
-function addRect() { // eslint-disable-line no-unused-vars
+function addRect() { 
   var fillColor = new Color(Math.random(), Math.random(), Math.random(), 0.75);
   var selectionColor = findComplimentaryColor(fillColor);
   
@@ -123,7 +123,7 @@ function addRect() { // eslint-disable-line no-unused-vars
   globals.pathTypeCount[globals.curBg]["rect"] += 1;
 }
 
-function addEllipse() { // eslint-disable-line no-unused-vars
+function addEllipse() { 
   var fillColor = new Color(Math.random(), Math.random(), Math.random(), 0.75);
   var selectionColor = findComplimentaryColor(fillColor);
   
@@ -147,7 +147,7 @@ function addEllipse() { // eslint-disable-line no-unused-vars
   globals.pathTypeCount[globals.curBg]["ellipse"] += 1;
 }
 
-function removeShape() { // eslint-disable-line no-unused-vars
+function removeShape() { 
   if (globals.selected.path) {
     var pathToRemove = globals.selected.path;
     
@@ -244,7 +244,7 @@ function replaceEllipse(options) {
   }
 }
 
-function replacePath(options) { // eslint-disable-line no-unused-vars
+function replacePath(options) { 
   if (globals.selected.path.shapeType === "rect") {
     replaceRect(options);
   }

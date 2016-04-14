@@ -4,7 +4,7 @@ var arrowKeys = [37, 38, 39, 40];
 // all numbers + backspace
 var validNumericFieldInputs = [8, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
 
-function onNumericInputKeyDown(event) { // eslint-disable-line no-unused-vars
+function onNumericInputKeyDown(event) { 
   var keyCode = event.which;
   
   if (arrowKeys.indexOf(keyCode) > -1) {
@@ -17,7 +17,7 @@ function onNumericInputKeyDown(event) { // eslint-disable-line no-unused-vars
   }
 }
 
-function onWidthKeyUp(event) { // eslint-disable-line no-unused-vars
+function onWidthKeyUp(event) { 
   var keyCode = event.which;
   
   if (arrowKeys.indexOf(keyCode) > -1) {
@@ -43,7 +43,7 @@ function onWidthKeyUp(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onWidthChange(event) { // eslint-disable-line no-unused-vars
+function onWidthChange(event) { 
   var newWidth = parseInt($("#widthInput").val());
   
   if (isNaN(newWidth)) {
@@ -63,7 +63,7 @@ function onWidthChange(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onHeightKeyUp(event) { // eslint-disable-line no-unused-vars
+function onHeightKeyUp(event) { 
   var keyCode = event.which;
   
   if (arrowKeys.indexOf(keyCode) > -1) {
@@ -89,7 +89,7 @@ function onHeightKeyUp(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onHeightChange(event) { // eslint-disable-line no-unused-vars
+function onHeightChange(event) { 
   var newHeight =  parseInt($("#heightInput").val());
   
   if (isNaN(newHeight)) {
@@ -109,7 +109,7 @@ function onHeightChange(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onXKeyUp(event) { // eslint-disable-line no-unused-vars
+function onXKeyUp(event) { 
   var keyCode = event.which;
   
   if (arrowKeys.indexOf(keyCode) > -1) {
@@ -134,7 +134,7 @@ function onXKeyUp(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onXChange(event) { // eslint-disable-line no-unused-vars
+function onXChange(event) { 
   var newX = parseInt($("#xInput").val());
   
   if (isNaN(newX)) {
@@ -153,7 +153,7 @@ function onXChange(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onYKeyUp(event) { // eslint-disable-line no-unused-vars
+function onYKeyUp(event) { 
   var keyCode = event.which;
   
   if (arrowKeys.indexOf(keyCode) > -1) {
@@ -178,7 +178,7 @@ function onYKeyUp(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onYChange(event) { // eslint-disable-line no-unused-vars
+function onYChange(event) { 
   var newY = parseInt($("#yInput").val());
   
   if (isNaN(newY)) {
@@ -197,7 +197,7 @@ function onYChange(event) { // eslint-disable-line no-unused-vars
   });
 }
 
-function onNameKeyUp(event) { // eslint-disable-line no-unused-vars
+function onNameKeyUp(event) { 
   var keyCode = event.which;
   
   if (arrowKeys.indexOf(keyCode) > -1) {
@@ -207,7 +207,7 @@ function onNameKeyUp(event) { // eslint-disable-line no-unused-vars
   globals.selected.path.name = $("#nameInput").val();
 }
 
-function arrangeImages(changeToImage) { // eslint-disable-line no-unused-vars
+function arrangeImages(changeToImage) { 
   if (globals.bgImages.length <= 1) {
     return;
   }
@@ -330,7 +330,7 @@ function arrangeImages(changeToImage) { // eslint-disable-line no-unused-vars
   mui.overlay("on", options, modalRoot);
 }
 
-function closeProject() { // eslint-disable-line no-unused-vars
+function closeProject() { 
   if (globals.bgImages.length === 0) {
     return;
   }
@@ -360,7 +360,7 @@ function closeProject() { // eslint-disable-line no-unused-vars
   hideControlButtons();
 }
 
-function onionSettings() { // eslint-disable-line no-unused-vars
+function onionSettings() { 
   if (globals.bgImages.length <= 1) {
     return;
   }
@@ -525,7 +525,7 @@ function onionSettings() { // eslint-disable-line no-unused-vars
   mui.overlay("on", options, modalRoot);
 }
 
-function previewAnimation() { // eslint-disable-line no-unused-vars
+function previewAnimation() { 
   if (globals.bgImages.length <= 1) {
     return;
   }
@@ -669,14 +669,14 @@ function previewAnimation() { // eslint-disable-line no-unused-vars
   mui.overlay("on", options, modalRoot);
 }
 
-function updatePathPosition() { // eslint-disable-line no-unused-vars
+function updatePathPosition() { 
   var position = globals.selected.path.position.round();
   
   $("#xInput").val(position.x);
   $("#yInput").val(position.y);
 }
 
-function updatePathDimensions() { // eslint-disable-line no-unused-vars
+function updatePathDimensions() { 
   var bounds = globals.selected.path.bounds;
   
   bounds.width = Math.round(bounds.width);
@@ -686,7 +686,7 @@ function updatePathDimensions() { // eslint-disable-line no-unused-vars
   $("#heightInput").val(bounds.height);
 }
 
-function previousBackground() { // eslint-disable-line no-unused-vars
+function previousBackground() { 
   if (globals.bgImages.length <= 1) {
     return;
   }
@@ -701,7 +701,7 @@ function previousBackground() { // eslint-disable-line no-unused-vars
   changeBackgroundRaster(index);
 }
 
-function nextBackground() { // eslint-disable-line no-unused-vars
+function nextBackground() { 
   if (globals.bgImages.length <= 1) {
     return;
   }
@@ -760,14 +760,14 @@ function calculateButtonsHeight() {
   return height;
 }
 
-function calculateButtonsSize() { // eslint-disable-line no-unused-vars
+function calculateButtonsSize() { 
   return {
     "width": calculateButtonsWidth(),
     "height": calculateButtonsHeight()
   };
 }
 
-function showControlButtons() { // eslint-disable-line no-unused-vars
+function showControlButtons() { 
   if (globals.bgImages.length > 1) {
     $("#previousBackground").show();
     $("#curBgIndex").show();
@@ -787,7 +787,7 @@ function showControlButtons() { // eslint-disable-line no-unused-vars
   fixWindow();
 }
 
-function hideControlButtons() { // eslint-disable-line no-unused-vars
+function hideControlButtons() { 
   $("#previousBackground").hide();
   $("#curBgIndex").hide();
   $("#nextBackground").hide();
@@ -806,12 +806,12 @@ function adjustWindowConstraints() {
   win.setMinimumSize(minWidth + 140, 0);
 }
 
-function removeHiddenAtStart() { // eslint-disable-line no-unused-vars
+function removeHiddenAtStart() { 
   $("#rightMenu").removeClass("hiddenAtStart");
   $("#footerBackground").removeClass("hiddenAtStart");
 }
 
-function fixRightMenu() { // eslint-disable-line no-unused-vars
+function fixRightMenu() { 
   var rightMenu = $("#rightMenu");
   var allChildren = rightMenu.children();
   var allButtons = rightMenu.find(".mui-btn");
@@ -868,7 +868,7 @@ function fixWindow() {
   }
 }
 
-function fixModal() { // eslint-disable-line no-unused-vars
+function fixModal() { 
   var jModal = $("#modal");
   
   if (jModal) {

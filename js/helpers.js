@@ -1,4 +1,4 @@
-function findComplimentaryColor(color) { // eslint-disable-line no-unused-vars
+function findComplimentaryColor(color) { 
   var compliment = color.clone();
   
   compliment.hue += 180.0;
