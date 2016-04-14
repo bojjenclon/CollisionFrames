@@ -14,5 +14,6 @@ Current Limitations:
 * Animations must consist of individual image files
 
 Planned Features:
+* Ability to change the origin point of each image
 * Support spritesheets
 * Support custom polygons
