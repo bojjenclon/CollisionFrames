@@ -1,0 +1,102 @@
+html, body {
+  overflow: hidden;
+  
+  background-color: #444444;
+}
+
+.hiddenAtStart {
+  visibility: hidden;
+}
+
+#paperCanvas {
+  float: left;
+}
+
+#container {
+  width: 480px;
+  height: 480px;
+  overflow: auto;
+}
+
+#header {
+  text-align: left;
+  
+  margin-left: 5px;
+}
+
+#headerBackground {
+  position: relative;
+  
+  width: 100%;
+  
+  margin: 0;
+  
+  left: 0;
+  top: 0;
+  
+  background-color: #222222;
+}
+
+#footer {
+  text-align: center;
+  
+  color: #dddddd;
+}
+
+#footerBackground {
+  position: absolute;
+  
+  width: 100%;
+  
+  margin: 0;
+  
+  left: 0;
+  bottom: 0;
+  
+  background-color: #222222;
+}
+
+#curBgIndex {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#rightMenu {
+  float: right;
+  
+  padding-top: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+  font-weight: bold;
+  
+  color: #dddddd;
+  background-color: #222222;
+}
+
+#rightMenu ul {
+  list-style: none;
+  padding-left: 0;
+  text-align: center;
+}
+
+#rightMenu li {
+  cursor: pointer;
+}
+
+#rightMenuClear {
+  float: clear;
+}
+
+#rightMenu .mui-textfield>label {
+  color: rgba(221, 221, 221, 0.87);
+}
+
+#rightMenu .mui-textfield--float-label>label {
+  color: rgba(221, 221, 221, 0.87);
+}
+
+#rightMenu .mui-textfield>input, .mui-textfield>textarea {
+  color: rgba(221, 221, 221, 0.87);
+  border-bottom: 1px solid rgba(33, 150, 243, 0.26);
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Collision Frames</title>
+  
+  <link href="css/lib/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="js/lib/mui.min.js"></script>
+  
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/modal.css" />
+</head>
+
+<body>
+  
+  <div id="headerBackground">
+    <div id="header">
+      
+      <div class="mui-dropdown">
+        
+        <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
+          File
+          <span class="mui-caret"></span>
+        </button>
+        
+        <ul class="mui-dropdown__menu">
+          <li><a id="openFile" onclick="openFile();" href="#">Open</a></li>
+          <li><a id="save" onclick="save();" href="#">Save</a></li>
+          <li><a id="saveAs" onclick="saveAs();" href="#">Save as...</a></li>
+          
+          <li class="mui-divider"></li>
+          
+          <li><a id="addImages" onclick="addImages();" href="#">Add Image(s)</a></li>
+        </ul>
+        
+      </div>
+      
+      <div class="mui-dropdown">
+        
+        <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
+          Edit
+          <span class="mui-caret"></span>
+        </button>
+        
+        <ul class="mui-dropdown__menu">
+          <li><a id="arrangeImages" onclick="arrangeImages();" href="#">Arrange Images</a></li>
+        </ul>
+        
+      </div>
+      
+      <div class="mui-dropdown">
+        
+        <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
+          View
+          <span class="mui-caret"></span>
+        </button>
+        
+        <ul class="mui-dropdown__menu">
+          <li><a id="centerView" onclick="centerView();" href="#">Center</a></li>
+        </ul>
+        
+      </div>
+      
+    </div>
+  </div>
+  
+  <canvas width="400" height="400" id="paperCanvas"></canvas>
+  
+  <div id="rightMenu" class="hiddenAtStart">
+    <ul>
+      <li>
+        <button class="mui-btn mui-btn--primary mui-btn--raised" id="addRect" onclick="addRect();">Add Rect</button>
+      </li>
+      <li>
+        <button class="mui-btn mui-btn--primary mui-btn--raised" id="addEllipse" onclick="addEllipse();">Add Ellipse</button>
+      </li>
+      <li>
+        <button class="mui-btn mui-btn--primary mui-btn--raised" id="removeShape" onclick="removeShape();">Remove Shape</button>
+      </li>
+      <span id="shapeControls">
+        <div class="mui-divider" style="margin-top: 5px; margin-bottom: 10px; background-color: rgba(33, 150, 243, 0.5);"></div>
+        
+        <li>
+          Color: 
+          <input type="text" id="pathColor" />
+        </li>
+        
+        <div class="mui-divider" style="margin-top: 10px; margin-bottom: 10px; background-color: rgba(33, 150, 243, 0.5);"></div>
+        
+        <li class="mui-textfield">
+          <input type="text" id="nameInput">
+          <label>Name</label>
+        </li>
+        
+        <li class="mui-textfield">
+          <input type="number" id="xInput">
+          <label>X</label>
+        </li>
+        <li class="mui-textfield">
+          <input type="number" id="yInput">
+          <label>Y</label>
+        </li>
+        
+        <li class="mui-textfield">
+          <input type="number" id="widthInput">
+          <label>Width</label>
+        </li>
+        <li class="mui-textfield">
+          <input type="number" id="heightInput">
+          <label>Height</label>
+        </li>
+      </span>
+    </ul>
+  </div>
+  <div class="rightMenuClear"></div>
+  
+  <div id="footerBackground" class="hiddenAtStart">
+    <div id="footer">
+      <button class="mui-btn mui-btn--primary mui-btn--raised" id="previousBackground" onclick="previousBackground();">Previous</button>
+      <span id="curBgIndex"></span>
+      <button class="mui-btn mui-btn--primary mui-btn--raised" id="nextBackground" onclick="nextBackground();">Next</button>
+    </div>
+  </div>
+  
+  <script src="bower_components/paper/dist/paper-core.min.js"></script>
+  
+  <!-- https://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined -->
+  <script>window.$ = window.jQuery = require("jquery");</script>
+  <script src="js/lib/jquery.mousewheel.min.js"></script>
+  
+  <script src="js/lib/spectrum.js"></script>
+  <link rel="stylesheet" href="css/lib/spectrum.css" />
+  
+  <script src="js/lib/html.sortable.min.js"></script>
+  
+  <script src="js/loader.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/helpers.js"></script>
+  <script src="js/fileIO.js"></script>
+  <script src="js/guiControls.js"></script>
+  <script src="js/paperControls.js"></script>
+  
+</body>
+
+</html>
