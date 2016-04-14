@@ -329,6 +329,36 @@ function arrangeImages(changeToImage) { // eslint-disable-line no-unused-vars
   mui.overlay("on", options, modalRoot);
 }
 
+function closeProject() { // eslint-disable-line no-unused-vars
+  if (globals.bgImages.length === 0) {
+    return;
+  }
+  
+  var numImages = globals.bgImages.length;
+  for (var i = 0; i < numImages; ++i) {
+    var imagePaths = globals.paths[i];
+    for (var j = 0; j < imagePaths.length; ++j) {
+      imagePaths[j].remove();
+    }
+  }
+  
+  globals.bgRaster.remove();
+  
+  paper.view.draw();
+  
+  globals.fileName = null;
+  
+  globals.curBg = 0;
+  globals.bgImages = [];
+  globals.thumbnails = [];
+  globals.paths = [];
+  globals.pathTypeCount = [];
+  globals.zoomLevels = [];
+  
+  $("#rightMenu").css("visibility", "hidden");
+  hideControlButtons();
+}
+
 function updatePathPosition() { // eslint-disable-line no-unused-vars
   var position = globals.selected.path.position.round();
   
@@ -440,6 +470,7 @@ function showControlButtons() { // eslint-disable-line no-unused-vars
   }
   
   $("#addRect").show();
+  $("#addEllipse").show();
   $("#removeShape").show();
   
   adjustWindowConstraints();
@@ -451,6 +482,7 @@ function hideControlButtons() { // eslint-disable-line no-unused-vars
   $("#curBgIndex").hide();
   $("#nextBackground").hide();
   $("#addRect").hide();
+  $("#addEllipse").hide();
   $("#removeShape").hide();
   
   adjustWindowConstraints();
