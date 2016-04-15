@@ -18,6 +18,26 @@ function changeBackgroundRaster(index) {
   globals.bgRaster = new Raster(image);
   globals.bgRaster.sendToBack();
   
+  if (globals.bgOutline) {
+    globals.bgOutline.remove();
+  }
+  
+  var outlineSize = [globals.bgRaster.size.width, globals.bgRaster.size.height];
+  var outlinePos = [
+    globals.bgRaster.position.x - (outlineSize[0] / 2),
+    globals.bgRaster.position.y - (outlineSize[1] / 2)
+  ];
+  
+  globals.bgOutline = new Path.Rectangle({
+    strokeColor: "#111111",
+    strokeWidth: 1,
+    point: outlinePos,
+    size: outlineSize,
+    opacity: 0.25
+  });
+  //globals.bgOutline.moveAbove(globals.bgRaster);
+  globals.bgOutline.sendToBack();
+  
   for (var i = 0; i < globals.paths[globals.curBg].length; ++i) {
     var path = globals.paths[globals.curBg][i];
     path.visible = true;
@@ -58,7 +78,7 @@ function changeOnionRaster(index) {
   globals.onionRaster.visible = overrideVisibility == null ? globals.onionSettings.enabled : overrideVisibility;
   globals.onionRaster.opacity = globals.onionSettings.transparency / 100;
   
-  globals.onionRaster.moveAbove(globals.bgRaster);
+  globals.onionRaster.moveBelow(globals.bgRaster);
   
   paper.view.draw();
 }

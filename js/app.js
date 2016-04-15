@@ -8,6 +8,8 @@ var globals = {
   bgRaster: null,
   onionRaster: null,
   
+  bgOutline: null,
+  
   bgImages: [],
   curBg: 0,
   
@@ -182,14 +184,14 @@ function onMouseDown(event) {
       hitResult = globals.selected.path.hitTest(event.point, { 
         segments: true,
         fill: true,
-        tolerance: 4
+        tolerance: 5
       });
     }
     else {
       hitResult = globals.selected.path.hitTest(event.point, { 
         fill: true,
         curves: true,
-        tolerance: 4
+        tolerance: 5
       });
     }
     
@@ -216,7 +218,7 @@ function onMouseDown(event) {
         globals.selected.isCurve = true;
       }
       else {
-        console.log(hitResult.type);
+        console.log("Unknown element clicked: " + hitResult.type);
       }
     }
   }
