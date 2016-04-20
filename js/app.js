@@ -512,7 +512,7 @@ function onResize(event) {
   // calculate new side menu size
   var rightMenu = $("#rightMenu");
   height = $(window).height() - $("#headerBackground").outerHeight(true) - $("#footerBackground").outerHeight(true);
-  rightMenu.height(height);
+  rightMenu.height(height - 3);
   
   fixWindow();
   
