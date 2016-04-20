@@ -543,11 +543,6 @@ function previewAnimation() {
   // construct content
   
   var modalContent = $("<div id='modalContent' class='mui-container mui--text-center'></div>'");
-  var modalImageContainer = $("<div id='animationContainer'></div>");
-  
-  modalContent.append(modalImageContainer);
-  
-  modalContent.append("<div class='mui-divider'></div><br />");
   
   // animation timing inputs
   
@@ -566,11 +561,22 @@ function previewAnimation() {
   var jFrameDelaySlider = $(frameDelaySlider);
   jFrameDelaySlider.attr("id", "frameDelaySlider");
   jFrameDelaySlider.addClass("noUi-extended");
+  jFrameDelaySlider.css("margin-top", "5px");
+  jFrameDelaySlider.css("margin-bottom", "5px");
   
-  var frameDelayInputRow = $("<label>Frame Delay (ms): <input type='number' id='frameDelayInput' class='mui--text-dark' min='1' max='250' step='1' value='" + globals.animationSettings.frameDelay + "' /></label>");
+  var frameDelayInputRow = $("<div><label>Frame Delay (ms): <input type='number' id='frameDelayInput' class='mui--text-dark' min='1' max='250' step='1' value='" + globals.animationSettings.frameDelay + "' /></label></div>");
+  frameDelayInputRow.css("margin-bottom", "5px");
   modalContent.append(frameDelayInputRow);
   
   var frameDelayInput = frameDelayInputRow.find("input[type='number']");
+  
+  // image container
+  
+  modalContent.append("<div class='mui-divider'></div><br />");
+  
+  var modalImageContainer = $("<div id='animationContainer'></div>");
+  
+  modalContent.append(modalImageContainer);
   
   // events
   

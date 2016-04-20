@@ -511,7 +511,7 @@ function onResize(event) {
   
   // calculate new side menu size
   var rightMenu = $("#rightMenu");
-  height = $(window).height() - $("#headerBackground").outerHeight(true) - $("#footerBackground").outerHeight(true);
+  height = $(window).height() - $("#headerBackground").outerHeight(true);
   rightMenu.height(height - 3);
   
   fixWindow();
@@ -520,6 +520,7 @@ function onResize(event) {
   var jCanvas = $(globals.canvas);
   
   width = $(window).width() - rightMenu.outerWidth(true);
+  height -= $("#footerBackground").outerHeight(true);
   
   var viewOffset = new Point(
     (jCanvas.width() - width) / 2 / paper.view.zoom,
