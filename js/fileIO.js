@@ -59,10 +59,12 @@ function openFile (doArrangeImages) {
       globals.zoomLevels[i] = 1;
     };
     
-    var allImagesLoaded = function(images) { 
+    var allImagesLoaded = function(images) {
       $("#rightMenu").css("visibility", "visible");
       showControlButtons();
       updateCurBgIndex(0);
+      
+      $(window).trigger("resize");
       
       if (doArrangeImages) {
         arrangeImages(0);

@@ -770,6 +770,18 @@ function calculateButtonsSize() {
   };
 }
 
+function togglePropertiesControls() {
+  $("#propertiesControls").slideToggle();
+}
+
+function togglePositionControls() {
+  $("#positionControls").slideToggle();
+}
+
+function toggleSizeControls() {
+  $("#sizeControls").slideToggle();
+}
+
 function showControlButtons() { 
   if (globals.bgImages.length > 1) {
     $("#previousBackground").show();
@@ -816,7 +828,7 @@ function removeHiddenAtStart() {
 
 function fixRightMenu() { 
   var rightMenu = $("#rightMenu");
-  var allChildren = rightMenu.children();
+  var allChildren = rightMenu.find("li");
   var allButtons = rightMenu.find(".mui-btn");
   
   var maxWidth = 0;
@@ -829,6 +841,9 @@ function fixRightMenu() {
       maxWidth = outerWidth;
     }
   }
+  
+  // the MiniColors input's width messes with the calculations, so this padding is necessary
+  maxWidth += 50;
   
   for (var i = 0; i < allButtons.length; ++i) {
     var domButton = allButtons[i];

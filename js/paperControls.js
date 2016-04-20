@@ -111,7 +111,7 @@ function selectPath(path) {
   nameInput.val(path.name);
   
   var colorPicker = $("#pathColor");
-  colorPicker.spectrum("set", path.fillColor.toCSS(false));
+  colorPicker.minicolors("value", path.fillColor.toCSS(false));
   
   updatePathPosition();
   updatePathDimensions();

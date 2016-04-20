@@ -77,51 +77,96 @@
   <canvas width="400" height="400" id="paperCanvas"></canvas>
   
   <div id="rightMenu" class="hiddenAtStart">
+    
     <ul>
-      <li>
-        <button class="mui-btn mui-btn--primary mui-btn--raised" id="addRect" onclick="addRect();">Add Rect</button>
-      </li>
-      <li>
-        <button class="mui-btn mui-btn--primary mui-btn--raised" id="addEllipse" onclick="addEllipse();">Add Ellipse</button>
-      </li>
-      <li>
-        <button class="mui-btn mui-btn--primary mui-btn--raised" id="removeShape" onclick="removeShape();">Remove Shape</button>
-      </li>
-      <span id="shapeControls">
-        <div class="mui-divider" style="margin-top: 5px; margin-bottom: 10px; background-color: rgba(33, 150, 243, 0.5);"></div>
+      
+      <span id="addRemoveControls">
         
         <li>
-          Color: 
-          <input type="text" id="pathColor" />
+          <button class="mui-btn mui-btn--primary mui-btn--raised" id="addRect" onclick="addRect();">Add Rect</button>
         </li>
         
-        <div class="mui-divider" style="margin-top: 10px; margin-bottom: 10px; background-color: rgba(33, 150, 243, 0.5);"></div>
-        
-        <li class="mui-textfield">
-          <input type="text" id="nameInput" >
-          <label>Name</label>
+        <li>
+          <button class="mui-btn mui-btn--primary mui-btn--raised" id="addEllipse" onclick="addEllipse();">Add Ellipse</button>
         </li>
         
-        <li class="mui-textfield">
-          <input type="number" id="xInput" step="any">
-          <label>X</label>
-        </li>
-        <li class="mui-textfield">
-          <input type="number" id="yInput" step="any">
-          <label>Y</label>
+        <li>
+          <button class="mui-btn mui-btn--primary mui-btn--raised" id="removeShape" onclick="removeShape();">Remove Shape</button>
         </li>
         
-        <li class="mui-textfield">
-          <input type="number" id="widthInput" step="any">
-          <label>Width</label>
-        </li>
-        <li class="mui-textfield">
-          <input type="number" id="heightInput" step="any">
-          <label>Height</label>
-        </li>
       </span>
+      
+      <span id="shapeControls">
+        
+        <div class="mui-divider"></div>
+
+        <li>
+          <a class="mui--text-light mui--text-subhead mui--no-user-select" onclick="togglePropertiesControls()">
+            Properties <span class="mui-caret"></span>
+          </a>
+        </li>
+        
+        <li id="propertiesControls" class="mui-panel" style="background-color: #444444">
+          
+          <div class="mui-textfield">
+            <input type="text" id="nameInput" >
+            <label>Name</label>
+          </divli>
+          
+          <div class="mui-textfield">
+            <input type="text" id="pathColor">
+            <label>Color</label>
+          </div>
+        </li>
+        
+        <div class="mui-divider"></div>
+        
+        <li>
+          <a class="mui--text-light mui--text-subhead mui--no-user-select" onclick="togglePositionControls()">
+            Position <span class="mui-caret"></span>
+          </a>
+        </li>
+        
+        <li id="positionControls" class="mui-panel" style="background-color: #444444">
+          
+          <div class="mui-textfield">
+            <input type="number" id="xInput" step="any">
+            <label>X</label>
+          </div>
+          <div class="mui-textfield">
+            <input type="number" id="yInput" step="any">
+            <label>Y</label>
+          </div>
+          
+        </li>
+        
+        <div class="mui-divider"></div>
+        
+        <li>
+          <a class="mui--text-light mui--text-subhead mui--no-user-select" onclick="toggleSizeControls()">
+            Size <span class="mui-caret"></span>
+          </a>
+        </li>
+        
+        <li id="sizeControls" class="mui-panel" style="background-color: #444444">
+        
+          <div class="mui-textfield">
+            <input type="number" id="widthInput" step="any">
+            <label>Width</label>
+          </div>
+          <div class="mui-textfield">
+            <input type="number" id="heightInput" step="any">
+            <label>Height</label>
+          </div>
+          
+        </li>
+        
+      </span>
+      
     </ul>
+    
   </div>
+  
   <div class="rightMenuClear"></div>
   
   <div id="footerBackground" class="hiddenAtStart">
@@ -138,8 +183,12 @@
   <script>window.$ = window.jQuery = require("jquery");</script>
   <script src="js/lib/jquery.mousewheel.min.js"></script>
   
+  <!--
   <script src="js/lib/spectrum.js"></script>
   <link rel="stylesheet" href="css/lib/spectrum.css" />
+  -->
+  <script src="js/lib/jquery.minicolors.min.js"></script>
+  <link rel="stylesheet" href="css/lib/jquery.minicolors.css" />
   
   <script src="js/lib/html.sortable.min.js"></script>
   

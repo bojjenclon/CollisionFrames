@@ -63,12 +63,31 @@ $(document).ready(function() {
   
   $("#paperCanvas").hide();
   hideControlButtons();
+  
   $("#shapeControls").hide();
+  $("#propertiesControls").hide();
+  $("#positionControls").hide();
+  $("#sizeControls").hide();
   
   $("#rightMenu").css("visibility", "hidden");
   
-  var colorChanged = function(color) {
-    var rgba = color.toRgb();
+  var rgbaObjectConvert = function(css) {
+    var openingParnethesis = css.indexOf("(");
+    var firstComma = css.indexOf(",");
+    var secondComma = css.indexOf(",", firstComma + 1);
+    var thirdComma = css.indexOf(",", secondComma + 1);
+    var closingParenthesis = css.indexOf(")");
+    
+    var r = parseInt(css.substring(openingParnethesis + 1, firstComma));
+    var g = parseInt(css.substring(firstComma + 1, secondComma));
+    var b = parseInt(css.substring(secondComma + 1, thirdComma >= 0 ? thirdComma : closingParenthesis));
+    var a = thirdComma >= 0 ? parseFloat(css.substring(thirdComma + 1, closingParenthesis)) : 1;
+    
+    return { "r": r, "g": g, "b": b, "a": a };
+  };
+  
+  var colorChanged = function(value, opacity) {
+    var rgba = rgbaObjectConvert(value);
     
     var fillColor = new Color(rgba.r / 255, rgba.g / 255, rgba.b / 255, rgba.a);
     var selectionColor = findComplimentaryColor(fillColor);
@@ -79,9 +98,11 @@ $(document).ready(function() {
     paper.view.draw();
   };
 
-  $("#pathColor").spectrum({
-    showAlpha: true,
-    change: colorChanged
+  $("#pathColor").minicolors({
+    format: "rgb",
+    opacity: true,
+    change: colorChanged,
+    changeDelay: 250
   });
   
   paper.setup("paperCanvas");
@@ -490,7 +511,7 @@ function onResize(event) {
   
   // calculate new side menu size
   var rightMenu = $("#rightMenu");
-  height = $(window).height() - $("#foooterBackground").height();
+  height = $(window).height() - $("#headerBackground").outerHeight(true) - $("#footerBackground").outerHeight(true);
   rightMenu.height(height);
   
   fixWindow();
@@ -499,7 +520,6 @@ function onResize(event) {
   var jCanvas = $(globals.canvas);
   
   width = $(window).width() - rightMenu.outerWidth(true);
-  height = $(window).height() - $("#headerBackground").outerHeight(true) - $("#footerBackground").outerHeight(true);
   
   var viewOffset = new Point(
     (jCanvas.width() - width) / 2 / paper.view.zoom,

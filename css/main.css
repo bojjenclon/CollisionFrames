@@ -72,6 +72,13 @@ html, body {
   
   color: #dddddd;
   background-color: #222222;
+  
+  overflow-y: scroll;
+}
+
+#rightMenu a {
+  cursor: pointer;
+  text-decoration: none;
 }
 
 #rightMenu ul {
@@ -80,8 +87,15 @@ html, body {
   text-align: center;
 }
 
-#rightMenu li {
-  cursor: pointer;
+#rightMenu .mui-panel {
+  padding-bottom: 0;
+  margin-bottom: 2px;
+}
+
+#rightMenu .mui-divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(33, 150, 243, 0.26);
 }
 
 #rightMenuClear {
