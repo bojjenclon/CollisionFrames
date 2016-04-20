@@ -85,6 +85,18 @@ function changeOnionRaster(index) {
 
 function centerView() {   
   paper.view.center = new Point(0, $("#footerBackground").outerHeight(true) / 2);
+  
+  paper.view.draw();
+}
+
+function resetZoom() {
+  if (globals.bgImages.length === 0) {
+    return;
+  }
+  
+  paper.view.zoom = globals.zoomLevels[globals.curBg] = 1;
+  
+  centerView();
 }
 
 function selectPath(path) {
