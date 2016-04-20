@@ -10,6 +10,7 @@ function changeBackgroundRaster(index) {
   
   globals.curBg = index;
   var image = globals.bgImages[index];
+  var originPos = globals.origins[globals.curBg];
   
   if (globals.bgRaster) {
     globals.bgRaster.remove();
@@ -38,6 +39,9 @@ function changeBackgroundRaster(index) {
   //globals.bgOutline.moveAbove(globals.bgRaster);
   globals.bgOutline.sendToBack();
   
+  globals.bgRaster.position.x = globals.bgOutline.position.x = originPos.x;
+  globals.bgRaster.position.y = globals.bgOutline.position.y = originPos.y;
+  
   for (var i = 0; i < globals.paths[globals.curBg].length; ++i) {
     var path = globals.paths[globals.curBg][i];
     path.visible = true;
@@ -45,6 +49,9 @@ function changeBackgroundRaster(index) {
   
   paper.view.zoom = globals.zoomLevels[globals.curBg];
   centerView();
+  
+  $("#xOriginInput").val(globals.origins[globals.curBg].x);
+  $("#yOriginInput").val(globals.origins[globals.curBg].y);
   
   changeOnionRaster();
 }
@@ -77,6 +84,8 @@ function changeOnionRaster(index) {
   
   globals.onionRaster.visible = overrideVisibility == null ? globals.onionSettings.enabled : overrideVisibility;
   globals.onionRaster.opacity = globals.onionSettings.transparency / 100;
+  globals.onionRaster.position.x = globals.origins[index].x;
+  globals.onionRaster.position.y = globals.origins[index].y;
   
   globals.onionRaster.moveBelow(globals.bgRaster);
   
@@ -84,7 +93,7 @@ function changeOnionRaster(index) {
 }
 
 function centerView() {   
-  paper.view.center = new Point(0, $("#footerBackground").outerHeight(true) / 2);
+  paper.view.center = new Point(0, 0);
   
   paper.view.draw();
 }
@@ -97,6 +106,16 @@ function resetZoom() {
   paper.view.zoom = globals.zoomLevels[globals.curBg] = 1;
   
   centerView();
+}
+
+function toggleCenterLines() {
+  if (globals.centerIndicators["horizontal"]) {
+    globals.centerIndicators["horizontal"].visible = !globals.centerIndicators["horizontal"].visible;
+  }
+  
+  if (globals.centerIndicators["vertical"]) {
+    globals.centerIndicators["vertical"].visible = !globals.centerIndicators["vertical"].visible;
+  }
 }
 
 function selectPath(path) {
@@ -116,6 +135,7 @@ function selectPath(path) {
   updatePathPosition();
   updatePathDimensions();
   
+  $("#imageControls").hide();
   $("#shapeControls").show();
 }
 
@@ -128,6 +148,7 @@ function deselectPath() {
   globals.selected.draggable = null;
   globals.selected.isCurve = false;
   
+  $("#imageControls").show();
   $("#shapeControls").hide();
 }
 

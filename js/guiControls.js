@@ -17,32 +17,6 @@ function onNumericInputKeyDown(event) {
   }
 }
 
-function onWidthKeyUp(event) { 
-  var keyCode = event.which;
-  
-  if (arrowKeys.indexOf(keyCode) > -1) {
-    return;
-  }
-  
-  var newWidth = parseFloat($("#widthInput").val());
-  
-  if (isNaN(newWidth)) {
-    return;
-  }
-  
-  var bounds = globals.selected.path.bounds.clone();
-  bounds.width = newWidth;
-  
-  var center = globals.selected.path.position.clone();
-  center.x -= bounds.width / 2;
-  center.y -= bounds.height / 2;
-  
-  replacePath({
-    "size": bounds,
-    "center": center
-  });
-}
-
 function onWidthChange(event) { 
   var newWidth = parseFloat($("#widthInput").val());
   
@@ -52,32 +26,6 @@ function onWidthChange(event) {
   
   var bounds = globals.selected.path.bounds.clone();
   bounds.width = newWidth;
-  
-  var center = globals.selected.path.position.clone();
-  center.x -= bounds.width / 2;
-  center.y -= bounds.height / 2;
-  
-  replacePath({
-    "size": bounds,
-    "center": center
-  });
-}
-
-function onHeightKeyUp(event) { 
-  var keyCode = event.which;
-  
-  if (arrowKeys.indexOf(keyCode) > -1) {
-    return;
-  }
-  
-  var newHeight =  parseFloat($("#heightInput").val());
-  
-  if (isNaN(newHeight)) {
-    return;
-  }
-  
-  var bounds = globals.selected.path.bounds.clone();
-  bounds.height = newHeight;
   
   var center = globals.selected.path.position.clone();
   center.x -= bounds.width / 2;
@@ -109,33 +57,8 @@ function onHeightChange(event) {
   });
 }
 
-function onXKeyUp(event) { 
-  var keyCode = event.which;
-  
-  if (arrowKeys.indexOf(keyCode) > -1) {
-    return;
-  }
-  
-  var newX = parseFloat($("#xInput").val());
-  
-  if (isNaN(newX)) {
-    return;
-  }
-  
-  var bounds = globals.selected.path.bounds.clone();
-  var center = globals.selected.path.position.clone();
-  
-  center.x = newX - bounds.width / 2;
-  center.y -= bounds.height / 2;
-  
-  replacePath({
-    "size": bounds,
-    "center": center
-  });
-}
-
-function onXChange(event) { 
-  var newX = parseFloat($("#xInput").val());
+function onXPosChange(event) { 
+  var newX = parseFloat($("#xPosInput").val());
   
   if (isNaN(newX)) {
     return;
@@ -153,14 +76,8 @@ function onXChange(event) {
   });
 }
 
-function onYKeyUp(event) { 
-  var keyCode = event.which;
-  
-  if (arrowKeys.indexOf(keyCode) > -1) {
-    return;
-  }
-  
-  var newY = parseFloat($("#yInput").val());
+function onYPosChange(event) { 
+  var newY = parseFloat($("#yPosInput").val());
   
   if (isNaN(newY)) {
     return;
@@ -178,23 +95,34 @@ function onYKeyUp(event) {
   });
 }
 
-function onYChange(event) { 
-  var newY = parseFloat($("#yInput").val());
+function onXOriginChange(event) { 
+  var newX = parseFloat($("#xOriginInput").val());
+  
+  if (isNaN(newX)) {
+    return;
+  }
+  
+  globals.origins[globals.curBg].x = newX;
+  
+  globals.bgRaster.position.x = newX;
+  globals.bgOutline.position.x = newX;
+  
+  paper.view.draw();
+}
+
+function onYOriginChange(event) { 
+  var newY = parseFloat($("#yOriginInput").val());
   
   if (isNaN(newY)) {
     return;
   }
   
-  var bounds = globals.selected.path.bounds.clone();
-  var center = globals.selected.path.position.clone();
+  globals.origins[globals.curBg].y = newY;
   
-  center.x -= bounds.width / 2;
-  center.y = newY - bounds.height / 2;
+  globals.bgRaster.position.y = newY;
+  globals.bgOutline.position.y = newY;
   
-  replacePath({
-    "size": bounds,
-    "center": center
-  });
+  paper.view.draw();
 }
 
 function onNameKeyUp(event) { 
@@ -681,8 +609,8 @@ function updatePathPosition() {
   position.x = Math.round(position.x * 100) / 100;
   position.y = Math.round(position.y * 100) / 100;
   
-  $("#xInput").val(position.x);
-  $("#yInput").val(position.y);
+  $("#xPosInput").val(position.x);
+  $("#yPosInput").val(position.y);
 }
 
 function updatePathDimensions() { 
@@ -782,6 +710,10 @@ function togglePropertiesControls() {
 
 function togglePositionControls() {
   $("#positionControls").slideToggle();
+}
+
+function toggleOriginControls() {
+  $("#originControls").slideToggle();
 }
 
 function toggleSizeControls() {

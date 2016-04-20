@@ -63,6 +63,7 @@
         <ul class="mui-dropdown__menu">
           <li><a id="centerView" onclick="centerView();" href="#">Center</a></li>
           <li><a id="resetZoom" onclick="resetZoom();" href="#">Reset Zoom</a></li>
+          <li><a id="toggleCenterLines" onclick="toggleCenterLines();" href="#">Toggle Center Lines</a></li>
           
           <li class="mui-divider"></li>
           
@@ -94,6 +95,33 @@
           <button class="mui-btn mui-btn--primary mui-btn--raised" id="removeShape" onclick="removeShape();">Remove Shape</button>
         </li>
         
+      </span>
+            
+      <span id="imageControls">
+        
+        <div class="mui-divider"></div>
+      
+        <li>
+          <a class="mui--text-light mui--text-subhead mui--no-user-select" onclick="toggleOriginControls()">
+            Origin <span class="mui-caret"></span>
+          </a>
+        </li>
+        
+        <li id="originControls" class="mui-panel" style="background-color: #444444">
+          
+          <div class="mui-textfield">
+            <input type="number" id="xOriginInput" step="any">
+            <label>X</label>
+          </div>
+          <div class="mui-textfield">
+            <input type="number" id="yOriginInput" step="any">
+            <label>Y</label>
+          </div>
+          
+        </li>
+        
+        <div class="mui-divider"></div>
+      
       </span>
       
       <span id="shapeControls">
@@ -130,11 +158,11 @@
         <li id="positionControls" class="mui-panel" style="background-color: #444444">
           
           <div class="mui-textfield">
-            <input type="number" id="xInput" step="any">
+            <input type="number" id="xPosInput" step="any">
             <label>X</label>
           </div>
           <div class="mui-textfield">
-            <input type="number" id="yInput" step="any">
+            <input type="number" id="yPosInput" step="any">
             <label>Y</label>
           </div>
           
@@ -160,6 +188,8 @@
           </div>
           
         </li>
+        
+        <div class="mui-divider"></div>
         
       </span>
       

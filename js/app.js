@@ -13,6 +13,11 @@ var globals = {
   bgImages: [],
   curBg: 0,
   
+  centerIndicators: {
+    "vertical": null,
+    "horizontal": null
+  },
+  
   origins: [],
   
   onionSettings: {
@@ -64,6 +69,8 @@ $(document).ready(function() {
   $("#paperCanvas").hide();
   hideControlButtons();
   
+  $("#originControls").hide();
+  
   $("#shapeControls").hide();
   $("#propertiesControls").hide();
   $("#positionControls").hide();
@@ -106,6 +113,8 @@ $(document).ready(function() {
   });
   
   paper.setup("paperCanvas");
+    
+  // create tools to control mouse and keyboard commands
   
   var tool = new Tool();
   
@@ -127,20 +136,19 @@ $(document).ready(function() {
   
   $("#nameInput").keyup(onNameKeyUp);
   
-  $("#xInput").keydown(onNumericInputKeyDown);
-  $("#yInput").keydown(onNumericInputKeyDown);
+  $("#xOriginInput").keydown(onNumericInputKeyDown);
+  $("#yOriginInput").keydown(onNumericInputKeyDown);
+  $("#xPosInput").keydown(onNumericInputKeyDown);
+  $("#yPosInput").keydown(onNumericInputKeyDown);
   $("#widthInput").keydown(onNumericInputKeyDown);
   $("#heightInput").keydown(onNumericInputKeyDown);
   
-  $("#xInput").keyup(onXKeyUp);
-  $("#yInput").keyup(onYKeyUp);
-  $("#widthInput").keyup(onWidthKeyUp);
-  $("#heightInput").keyup(onHeightKeyUp);
-  
-  $("#xInput").change(onXChange);
-  $("#yInput").change(onYChange);
-  $("#widthInput").change(onWidthChange);
-  $("#heightInput").change(onHeightChange);
+  $("#xOriginInput").bind("input", onXOriginChange);
+  $("#yOriginInput").bind("input", onYOriginChange);
+  $("#xPosInput").bind("input", onXPosChange);
+  $("#yPosInput").bind("input", onYPosChange);
+  $("#widthInput").bind("input", onWidthChange);
+  $("#heightInput").bind("input", onHeightChange);
   
   $(window).trigger("resize");
 });
@@ -178,7 +186,14 @@ function onMouseDown(event) {
   
   var selectedThisFrame = false;
   if (event.item) {
-    if (event.item == globals.bgRaster || event.item == globals.onionRaster) {
+    var cantBeSelected = [
+      globals.bgRaster,
+      globals.onionRaster,
+      globals.centerIndicators["horizontal"],
+      globals.centerIndicators["vertical"]
+    ];
+    
+    if (cantBeSelected.indexOf(event.item) > -1) {
       deselectPath();
       
       return;
@@ -536,6 +551,28 @@ function onResize(event) {
   }
   
   $("#footerBackground").width(width);
+  
+  // create lines to indicate the center of the canvas
+  
+  if (globals.centerIndicators["horizontal"]) {
+    globals.centerIndicators["horizontal"].remove();
+  }
+  if (globals.centerIndicators["vertical"]) {
+    globals.centerIndicators["vertical"].remove();
+  }
+  
+  globals.centerIndicators["horizontal"] = new Path.Line({
+    from: [-width / 2, 0],
+    to: [width / 2, 0],
+    strokeColor: "rgba(0, 0, 0, 0.1)"
+  });
+  globals.centerIndicators["horizontal"].bringToFront();
+  globals.centerIndicators["vertical"] = new Path.Line({
+    from: [0, -height / 2],
+    to: [0, height / 2],
+    strokeColor: "rgba(0, 0, 0, 0.1)"
+  });
+  globals.centerIndicators["vertical"].bringToFront();
   
   fixModal();
   

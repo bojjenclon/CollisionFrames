@@ -37,6 +37,7 @@ function openFile (doArrangeImages) {
     globals.paths = new Array(fileNames.length);
     globals.pathTypeCount = new Array(fileNames.length);
     globals.zoomLevels = new Array(fileNames.length);
+    globals.origins = new Array(fileNames.length);
     
     var loadImage = function(images, i, onComplete) {
       var image = new Image();
@@ -57,6 +58,7 @@ function openFile (doArrangeImages) {
         "ellipse": 0
       };
       globals.zoomLevels[i] = 1;
+      globals.origins[i] = new Point(0, 0);
     };
     
     var allImagesLoaded = function(images) {
@@ -147,6 +149,7 @@ function addImages(doArrangeImages) {
         "ellipse": 0
       });
       globals.zoomLevels.push(1);
+      globals.origins.push(new Point(0, 0));
     };
     
     var allImagesLoaded = function(images) { 
