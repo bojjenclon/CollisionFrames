@@ -106,8 +106,14 @@
 #animationPreviewImage {
   max-width: 100%;
   height: auto;
+  position: relative;
 }
 
 #animationContainer {
   margin-bottom: 10px;
+  height: 300px;
+}
+
+.noScrollBars {
+  overflow: hidden;
 }

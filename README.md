@@ -26,6 +26,7 @@ Current Features:
 * Save info for all images in the "animation" to a JSON file
 * Basic onion skinning
 * Preview the current animation
+* Control the origin point of each frame
 
 ---
 
@@ -36,6 +37,7 @@ Current Limitations:
 ---
 
 Planned Features:
-* Ability to change the origin point of each image
+* Add forward pass onion skinning (currently only backward pass is supported)
+* Expand onion skinning to display multiple frames at a time
 * Support spritesheets
 * Support custom polygons

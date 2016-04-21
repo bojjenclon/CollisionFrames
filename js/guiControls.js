@@ -470,7 +470,7 @@ function previewAnimation() {
   
   // construct content
   
-  var modalContent = $("<div id='modalContent' class='mui-container mui--text-center'></div>'");
+  var modalContent = $("<div id='modalContent' class='mui-container mui--text-center noScrollBars'></div>'");
   
   // animation timing inputs
   
@@ -506,12 +506,48 @@ function previewAnimation() {
   
   modalContent.append(modalImageContainer);
   
+  // compute values
+  
+  var maxWidth = 0;
+  var maxHeight = 0;
+  
+  for (var i = 0; i < globals.bgImages.length; ++i) {
+    var curImage = globals.bgImages[i];
+    
+    if (curImage.width > maxWidth) {
+      maxWidth = curImage.width;
+    }
+    
+    if (curImage.height > maxHeight) {
+      maxHeight = curImage.height;
+    }
+  }
+  
+  if (maxWidth > modalImageContainer.width()) {
+    maxWidth = modalImageContainer.width();
+  }
+  if (maxHeight > modalImageContainer.height()) {
+    maxHeight = modalImageContainer.height();
+  }
+  
   // events
+  
+  globals.animationSettings.currentFrame = 0;
   
   var nextDrawFrame = null;
   var draw = function() {
     modalImage = $(globals.bgImages[globals.animationSettings.currentFrame]).clone();
+    
+    var origin = globals.origins[globals.animationSettings.currentFrame];
+    var startPos = new Point(
+      0, 
+      maxHeight / 2 - modalImage.height() / 2
+    );
+    
     modalImage.attr("id", "animationPreviewImage");
+    modalImage.css("left", (startPos.x + origin.x) + "px");
+    modalImage.css("top", (startPos.y + origin.y) + "px");
+    
     modalImageContainer.html(modalImage);
     
     globals.animationSettings.currentFrame++;
@@ -590,7 +626,7 @@ function previewAnimation() {
   modalRoot.style.top = yPos + "px";
   
   var onModalClose = function() {
-    
+    clearTimeout(nextDrawFrame);
   };
 
   var options = {
