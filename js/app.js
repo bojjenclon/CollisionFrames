@@ -6,7 +6,10 @@ var globals = {
   curImage: 0,
   
   bgRaster: null,
-  onionRaster: null,
+  onionRasters: {
+    "previous": [],
+    "next": []
+  },
   
   bgOutline: null,
   
@@ -23,9 +26,12 @@ var globals = {
   origins: [],
   
   onionSettings: {
-    enabled: false,
+    previousEnabled: false,
+    nextEnabled: false,
     transparency: 30,
-    loop: true
+    transparencyStep: 0.05,
+    loop: true,
+    framesToDisplay: 1
   },
   
   animationSettings: {
@@ -190,10 +196,12 @@ function onMouseDown(event) {
   if (event.item) {
     var cantBeSelected = [
       globals.bgRaster,
-      globals.onionRaster,
+      globals.bgOutline,
       globals.centerIndicators["horizontal"],
       globals.centerIndicators["vertical"]
     ];
+    cantBeSelected = cantBeSelected.concat(globals.onionRasters["previous"]);
+    cantBeSelected = cantBeSelected.concat(globals.onionRasters["next"]);
     
     if (cantBeSelected.indexOf(event.item) > -1) {
       deselectPath();

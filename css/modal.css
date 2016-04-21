@@ -97,8 +97,9 @@
 
 /* Onion Skin Settings */
 
-#transparencyInput {
+#transparencySlider {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* Preview Animation */

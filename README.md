@@ -37,7 +37,5 @@ Current Limitations:
 ---
 
 Planned Features:
-* Add forward pass onion skinning (currently only backward pass is supported)
-* Expand onion skinning to display multiple frames at a time
 * Support spritesheets
 * Support custom polygons

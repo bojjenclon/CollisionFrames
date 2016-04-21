@@ -307,15 +307,30 @@ function onionSettings() {
   
   var modalContent = $("<div id='modalContent' class='mui-container mui--text-center'></div>'");
   
-  var modalOnionEnabled = $("<div class='mui-checkbox'>" +
-                              "<label>" +
-                                "<input type='checkbox'" + (globals.onionSettings.enabled ? "checked" : "") + ">" +
-                                "Enable Onion Skin" +
-                              "</label>" +
-                            "</div>");
-  modalContent.append(modalOnionEnabled);
+  var modalPreviousOnionEnabled = $("<div class='mui-checkbox'>" +
+                                      "<label>" +
+                                        "<input type='checkbox'" + (globals.onionSettings.previousEnabled ? "checked" : "") + ">" +
+                                        "Enable Previous Onion Skin(s)" +
+                                      "</label>" +
+                                    "</div>");
+  modalContent.append(modalPreviousOnionEnabled);
+  
+  var modalNextOnionEnabled = $("<div class='mui-checkbox'>" +
+                                  "<label>" +
+                                    "<input type='checkbox'" + (globals.onionSettings.nextEnabled ? "checked" : "") + ">" +
+                                    "Enable Next Onion Skin(s)" +
+                                  "</label>" +
+                                "</div>");
+  modalContent.append(modalNextOnionEnabled);
   
   modalContent.append("<div class='mui-divider'></div><br />");
+  
+  var isEitherEnabled = (globals.onionSettings.previousEnabled || globals.onionSettings.nextEnabled);
+  
+  // frame to display input
+  
+  var framesToDisplayInput = $("<input type='number' id='framesToDisplayInput' class='mui--text-dark' min='1' max='3' step='1' value='" + globals.onionSettings.framesToDisplay + "' " + (isEitherEnabled ? "" : "disabled") + " />");
+  modalContent.append(framesToDisplayInput);
   
   // transparency inputs
   
@@ -329,7 +344,7 @@ function onionSettings() {
     },
     animate: false
   });
-  if (!globals.onionSettings.enabled) {
+  if (!isEitherEnabled) {
     transparencySlider.setAttribute("disabled", true);
   }
   modalContent.append(transparencySlider);
@@ -338,7 +353,7 @@ function onionSettings() {
   jTransparencySlider.attr("id", "transparencySlider");
   jTransparencySlider.addClass("noUi-extended");
   
-  var transparencyInput = $("<input type='number' id='transparencyInput' class='mui--text-dark' min='0' max='100' step='1' value='" + globals.onionSettings.transparency + "' " + (globals.onionSettings.enabled ? "" : "disabled") + " />");
+  var transparencyInput = $("<input type='number' id='transparencyInput' class='mui--text-dark' min='0' max='100' step='1' value='" + globals.onionSettings.transparency + "' " + (isEitherEnabled ? "" : "disabled") + " />");
   modalContent.append(transparencyInput);
   
   // misc inputs
@@ -353,23 +368,70 @@ function onionSettings() {
   
   // connect events
   
-  modalOnionEnabled.change(function() {
-    var checkbox = modalOnionEnabled.find("input[type='checkbox']");
-    var value = checkbox.prop("checked");
-    
+  var setSliderDisabled = function(slider, value) {
     if (value) {
-      transparencySlider.removeAttribute("disabled");
+      slider.removeAttribute("disabled");
     }
     else {
-      transparencySlider.setAttribute("disabled", true);
+      slider.setAttribute("disabled", true);
+    }
+  };
+  
+  modalPreviousOnionEnabled.change(function() {
+    var checkbox = modalPreviousOnionEnabled.find("input[type='checkbox']");
+    var value = checkbox.prop("checked");
+    
+    var eitherEnabled = (value || globals.onionSettings.nextEnabled);
+    
+    framesToDisplayInput.prop("disabled", !eitherEnabled);
+    setSliderDisabled(transparencySlider, eitherEnabled);
+    transparencyInput.prop("disabled", !eitherEnabled);
+    
+    globals.onionSettings.previousEnabled = value;
+    
+    if (globals.onionRasters["previous"].length > 0) {
+      globals.onionRasters["previous"].forEach(function(raster, index, array) {
+        raster.visible = value;
+      });
+    }
+    else {
+      changePreviousOnionRasters();
     }
     
-    transparencyInput.prop("disabled", !value);
+    paper.view.draw();
+  });
+  
+  modalNextOnionEnabled.change(function() {
+    var checkbox = modalNextOnionEnabled.find("input[type='checkbox']");
+    var value = checkbox.prop("checked");
     
-    globals.onionSettings.enabled = value;
-    globals.onionRaster.visible = value;
+    var eitherEnabled = (value || globals.onionSettings.previousEnabled);
+    
+    framesToDisplayInput.prop("disabled", !eitherEnabled);
+    setSliderDisabled(transparencySlider, eitherEnabled);
+    transparencyInput.prop("disabled", !eitherEnabled);
+    
+    globals.onionSettings.nextEnabled = value;
+    
+    if (globals.onionRasters["next"].length > 0) {
+      globals.onionRasters["next"].forEach(function(raster, index, array) {
+        raster.visible = value;
+      });
+    }
+    else {
+      changeNextOnionRasters();
+    }
     
     paper.view.draw();
+  });
+  
+  framesToDisplayInput.bind("input", function() {
+    var value = parseInt(framesToDisplayInput.val());
+    
+    globals.onionSettings.framesToDisplay = value;
+    
+    changePreviousOnionRasters();
+    changeNextOnionRasters();
   });
   
   transparencySlider.noUiSlider.on("update", function() {
@@ -378,18 +440,32 @@ function onionSettings() {
     transparencyInput.val(Math.floor(value));
     
     globals.onionSettings.transparency = value;
-    globals.onionRaster.opacity = value / 100;
+    
+    var baseOpacity = value / 100;
+    globals.onionRasters["previous"].forEach(function(raster, index, array) {
+      raster.opacity = baseOpacity - (index * globals.onionSettings.transparencyStep);
+    });
+    globals.onionRasters["next"].forEach(function(raster, index, array) {
+      raster.opacity = baseOpacity - (index * globals.onionSettings.transparencyStep);
+    });
     
     paper.view.draw();
   });
   
   transparencyInput.bind("input", function() {
-    var value = transparencyInput.val();
+    var value = parseInt(transparencyInput.val());
     
     transparencySlider.noUiSlider.set(value);
     
     globals.onionSettings.transparency = value;
-    globals.onionRaster.opacity = value / 100;
+    
+    var baseOpacity = value / 100;
+    globals.onionRasters["previous"].forEach(function(raster, index, array) {
+      raster.opacity = baseOpacity - (index * globals.onionSettings.transparencyStep);
+    });
+    globals.onionRasters["next"].forEach(function(raster, index, array) {
+      raster.opacity = baseOpacity - (index * globals.onionSettings.transparencyStep);
+    });
     
     paper.view.draw();
   });
@@ -400,11 +476,22 @@ function onionSettings() {
     
     globals.onionSettings.loop = value;
     
-    if (globals.curBg === 0) {
-      globals.onionRaster.visible = value;
-      
-      paper.view.draw();
+    if (globals.curBg - globals.onionSettings.framesToDisplay < 0) {
+      globals.onionRasters["previous"].forEach(function(raster, index, array) {
+        if (globals.curBg - index < 0) {
+          raster.visible = value;
+        }
+      });
     }
+    if (globals.curBg + globals.onionSettings.framesToDisplay >= globals.bgImages.length) {
+      globals.onionRasters["next"].forEach(function(raster, index, array) {
+        if (globals.curBg + index >= globals.bgImages.length) {
+          raster.visible = value;
+        }
+      });
+    }
+    
+    paper.view.draw();
   });
   
   // construct footer

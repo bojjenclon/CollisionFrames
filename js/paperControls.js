@@ -53,41 +53,92 @@ function changeBackgroundRaster(index) {
   $("#xOriginInput").val(globals.origins[globals.curBg].x);
   $("#yOriginInput").val(globals.origins[globals.curBg].y);
   
-  changeOnionRaster();
+  changePreviousOnionRasters();
+  changeNextOnionRasters();
 }
 
-function changeOnionRaster(index) { 
-  if (globals.bgImages.length <= 1) {
+function changePreviousOnionRasters() { 
+  if (globals.bgImages.length <= 1 || !globals.onionSettings.previousEnabled) {
     return;
   }
   
-  var overrideVisibility = null;
-  if (index === undefined) {
-    index = globals.curBg - 1;
+  if (globals.onionRasters["previous"].length > 0) {
+    globals.onionRasters["previous"].forEach(function(raster, index, array) {
+      raster.remove();
+    });
+  }
+  
+  var numFrames = globals.onionSettings.framesToDisplay;
+  var previousRasters = new Array(numFrames);
+  var baseOpacity = globals.onionSettings.transparency / 100;
+  
+  for (var i = numFrames; i > 0; --i) {
+    var index = globals.curBg - i;
     
     if (index < 0) {
-      index = globals.bgImages.length - 1;
-      
       if (!globals.onionSettings.loop) {
-        overrideVisibility = false;
+        break;
       }
+      
+      index = globals.bgImages.length - 1;
     }
+    
+    var onionImage = globals.bgImages[index];
+    var onionRaster = new Raster(onionImage);
+    
+    onionRaster.opacity = baseOpacity - ((i + 1) * globals.onionSettings.transparencyStep);
+    onionRaster.position.x = globals.origins[index].x;
+    onionRaster.position.y = globals.origins[index].y;
+    
+    onionRaster.moveBelow(globals.bgRaster);
+    
+    previousRasters[i] = onionRaster;
   }
   
-  var image = globals.bgImages[index];
+  globals.onionRasters["previous"] = previousRasters;
   
-  if (globals.onionRaster) {
-    globals.onionRaster.remove();
+  paper.view.draw();
+}
+
+function changeNextOnionRasters() {
+  if (globals.bgImages.length <= 1 || !globals.onionSettings.nextEnabled) {
+    return;
   }
   
-  globals.onionRaster = new Raster(image);
+  if (globals.onionRasters["next"].length > 0) {
+    globals.onionRasters["next"].forEach(function(raster, index, array) {
+      raster.remove();
+    });
+  }
   
-  globals.onionRaster.visible = overrideVisibility == null ? globals.onionSettings.enabled : overrideVisibility;
-  globals.onionRaster.opacity = globals.onionSettings.transparency / 100;
-  globals.onionRaster.position.x = globals.origins[index].x;
-  globals.onionRaster.position.y = globals.origins[index].y;
+  var numFrames = globals.onionSettings.framesToDisplay;
+  var nextRasters = new Array(numFrames);
+  var baseOpacity = globals.onionSettings.transparency / 100;
   
-  globals.onionRaster.moveBelow(globals.bgRaster);
+  for (var i = numFrames; i > 0; --i) {
+    var index = globals.curBg + i;
+    
+    if (index >= globals.bgImages.length) {
+      if (!globals.onionSettings.loop) {
+        break;
+      }
+      
+      index = globals.bgImages.length % index;
+    }
+    
+    var onionImage = globals.bgImages[index];
+    var onionRaster = new Raster(onionImage);
+    
+    onionRaster.opacity = baseOpacity - ((numFrames - i) * globals.onionSettings.transparencyStep);
+    onionRaster.position.x = globals.origins[index].x;
+    onionRaster.position.y = globals.origins[index].y;
+    
+    onionRaster.moveAbove(globals.bgRaster);
+    
+    nextRasters[i] = onionRaster;
+  }
+  
+  globals.onionRasters["next"] = nextRasters;
   
   paper.view.draw();
 }
