@@ -77,6 +77,7 @@ function openFile (doArrangeImages) {
     };
     
     fileNames.sort(naturalSort);
+    globals.bgFilePaths = fileNames;
     
     var imageSrcs = new Array(fileNames.length);
     var filesLoaded = 0;
@@ -130,6 +131,8 @@ function addImages(doArrangeImages) {
       return;
     }
     
+    var numImages = globals.bgImages.length;
+    
     var loadImage = function(images, i, onComplete) {
       var image = new Image();
       image.src = images[i];
@@ -141,15 +144,15 @@ function addImages(doArrangeImages) {
       thumbnail.css("width", "125px");
       thumbnail.css("height", "125px");
       
-      globals.bgImages.push(image);
-      globals.thumbnails.push(thumbnail);
-      globals.paths.push([]);
-      globals.pathTypeCount.push({
+      globals.bgImages[numImages + i] = image;
+      globals.thumbnails[numImages + i] = thumbnail;
+      globals.paths[numImages + i] = [];
+      globals.pathTypeCount[numImages + i] = {
         "rect": 0,
         "ellipse": 0
-      });
-      globals.zoomLevels.push(1);
-      globals.origins.push(new Point(0, 0));
+      };
+      globals.zoomLevels[numImages + i] = 1;
+      globals.origins[numImages + i] = new Point(0, 0);
     };
     
     var allImagesLoaded = function(images) { 
@@ -164,6 +167,9 @@ function addImages(doArrangeImages) {
         changeBackgroundRaster(0);
       }
     };
+    
+    fileNames.sort(naturalSort);
+    globals.bgFilePaths.concat(fileNames);
     
     var imageSrcs = new Array(fileNames.length);
     var filesLoaded = 0;
@@ -200,28 +206,41 @@ function addImages(doArrangeImages) {
 function constructJSON() {
   var json = [];
   
-  var image = globals.bgImages[globals.curBg];
-  var offset = new Point(image.width / 2, image.height / 2);
-  
-  for (var i = 0; i < globals.paths.length; ++i) {
-    var allPaths = globals.paths[i];
-    var jsonPaths = [];
+  for (var i = 0; i < globals.bgImages.length; ++i) {
+    var imageJson = {};
     
-    for (var k = 0; k < allPaths.length; ++k) {
-      var curPath = allPaths[k];
+    var image = globals.bgImages[i];
+    var origin = globals.origins[i];
+    
+    imageJson["path"] = globals.bgFilePaths[i];
+    
+    imageJson["origin"] = {
+      "x": origin.x,
+      "y": origin.y
+    };
+    
+    var pathOffset = new Point(origin.x + image.width / 2, origin.y + image.height / 2);
+    
+    var allPaths = globals.paths[i];
+    var imagePaths = [];
+    
+    for (var j = 0; j < allPaths.length; ++j) {
+      var curPath = allPaths[j];
       var rect = curPath.bounds;
       
-      jsonPaths.push({
+      imagePaths.push({
         "name": curPath.name,
         "type": curPath.shapeType,
-        "x": rect.x + offset.x,
-        "y": rect.y + offset.y,
+        "x": rect.x + pathOffset.x,
+        "y": rect.y + pathOffset.y,
         "width": rect.width,
         "height": rect.height
       });
     }
     
-    json[i] = jsonPaths;
+    imageJson["paths"] = imagePaths;
+    
+    json.push(imageJson);
   }
   
   var jsonString = JSON.stringify(json, null, 2);

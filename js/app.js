@@ -13,6 +13,8 @@ var globals = {
   bgImages: [],
   curBg: 0,
   
+  bgFilePaths: [],
+  
   centerIndicators: {
     "vertical": null,
     "horizontal": null
