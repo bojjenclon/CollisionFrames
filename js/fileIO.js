@@ -47,8 +47,8 @@ function openFile (doArrangeImages) {
       };
       
       var thumbnail = $(image).clone();
-      thumbnail.css("width", "125px");
-      thumbnail.css("height", "125px");
+      thumbnail.css("max-width", "125px");
+      thumbnail.css("max-height", "125px");
       
       globals.bgImages[i] = image;
       globals.thumbnails[i] = thumbnail;
@@ -141,8 +141,8 @@ function addImages(doArrangeImages) {
       };
       
       var thumbnail = $(image).clone();
-      thumbnail.css("width", "125px");
-      thumbnail.css("height", "125px");
+      thumbnail.css("max-width", "125px");
+      thumbnail.css("max-height", "125px");
       
       globals.bgImages[numImages + i] = image;
       globals.thumbnails[numImages + i] = thumbnail;
