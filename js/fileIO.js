@@ -117,8 +117,6 @@ function openProject() {
           globals.origins[i].x = curFrame.origin.x;
           globals.origins[i].y = curFrame.origin.y;
           
-          var pathOffset = new Point(curFrame.origin.x + globals.bgImages[i].width / 2, curFrame.origin.y + globals.bgImages[i].height / 2);
-          
           var allPaths = curFrame.paths;
           for (var j = 0; j < allPaths.length; ++j) {
             var curPath = allPaths[j];
@@ -130,7 +128,7 @@ function openProject() {
               
               var rect = new Path.Rectangle({
                 name: "rect" + shapeTypeIndex,
-                point: new Point(curPath.x - pathOffset.x, curPath.y - pathOffset.y),
+                point: new Point(curPath.x, curPath.y),
                 size: [curPath.width, curPath.height],
                 fillColor: fillColor,
                 selectedColor: selectionColor,
@@ -301,8 +299,6 @@ function constructJSON() {
       "y": origin.y
     };
     
-    var pathOffset = new Point(origin.x + image.width / 2, origin.y + image.height / 2);
-    
     var allPaths = globals.paths[i];
     var imagePaths = [];
     
@@ -313,8 +309,8 @@ function constructJSON() {
       imagePaths.push({
         "name": curPath.name,
         "type": curPath.shapeType,
-        "x": rect.x + pathOffset.x,
-        "y": rect.y + pathOffset.y,
+        "x": rect.x,
+        "y": rect.y,
         "width": rect.width,
         "height": rect.height
       });
