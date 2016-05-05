@@ -273,12 +273,29 @@ function closeProject() {
   
   globals.bgRaster.remove();
   
+  globals.onionRasters.previous.forEach(function(raster) {
+    raster.remove();
+  });
+  globals.onionRasters.next.forEach(function(raster) {
+    raster.remove();
+  });
+  
+  globals.bgOutline.remove();
+  
+  globals.centerIndicators.horizontal.remove();
+  globals.centerIndicators.vertical.remove();
+  
+  globals.centerIndicators.horizontal = null;
+  globals.centerIndicators.vertical = null;
+  
   paper.view.draw();
   
   globals.fileName = null;
   
   globals.curBg = 0;
   globals.bgImages = [];
+  globals.onionRasters.previous = [];
+  globals.onionRasters.next = [];
   globals.thumbnails = [];
   globals.paths = [];
   globals.pathTypeCount = [];

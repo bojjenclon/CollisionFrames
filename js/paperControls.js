@@ -148,7 +148,7 @@ function changeNextOnionRasters() {
 function centerView() {   
   paper.view.center = new Point(0, 0);
   
-  paper.view.draw();
+  fixCenterLines();
 }
 
 function resetZoom() {

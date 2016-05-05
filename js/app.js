@@ -182,7 +182,9 @@ function panView(delta, speed) {
   paper.view.center = viewCenter;
   paper.view.draw();
   
-  fixCenterLines();
+  if (globals.bgImages.length > 0) {
+    fixCenterLines();
+  }
 }
 
 function onMouseDown(event) {
@@ -520,9 +522,7 @@ function onKeyDown(event) {
 
 function onKeyUp(event) {
   if (event.key === "delete" && globals.selected.path) {
-    globals.selected.path.remove();
-    
-    deselectPath();
+    removeShape();
   }
   else if (event.key === "space") {
     globals.keyDown.space = false;
@@ -566,7 +566,9 @@ function onResize(event) {
   
   $("#footerBackground").width(width);
   
-  fixCenterLines();
+  if (globals.bgImages.length > 0) {
+    fixCenterLines();
+  }
   
   fixModal();
   
