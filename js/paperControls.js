@@ -50,6 +50,8 @@ function changeBackgroundRaster(index) {
   paper.view.zoom = globals.zoomLevels[globals.curBg];
   centerView();
   
+  fixCenterLines();
+  
   $("#xOriginInput").val(globals.origins[globals.curBg].x);
   $("#yOriginInput").val(globals.origins[globals.curBg].y);
   
@@ -157,6 +159,40 @@ function resetZoom() {
   paper.view.zoom = globals.zoomLevels[globals.curBg] = 1;
   
   centerView();
+}
+
+function fixCenterLines() {
+  // create lines to indicate the center of the canvas
+  
+  var width = globals.canvas.width;
+  var height = globals.canvas.height;
+  
+  if (globals.centerIndicators["horizontal"]) {
+    globals.centerIndicators["horizontal"].remove();
+  }
+  
+  if (globals.centerIndicators["vertical"]) {
+    globals.centerIndicators["vertical"].remove();
+  }
+  
+  var halfWidth = (width / 2) / paper.view.zoom;
+  var halfHeight = (height / 2) / paper.view.zoom;
+  
+  globals.centerIndicators["horizontal"] = new Path.Line({
+    from: [-halfWidth + paper.view.center.x, 0],
+    to: [halfWidth + paper.view.center.x, 0],
+    strokeColor: "rgba(0, 0, 0, 0.1)"
+  });
+  globals.centerIndicators["horizontal"].bringToFront();
+  
+  globals.centerIndicators["vertical"] = new Path.Line({
+    from: [0, -halfHeight + paper.view.center.y],
+    to: [0, halfHeight + paper.view.center.y],
+    strokeColor: "rgba(0, 0, 0, 0.1)"
+  });
+  globals.centerIndicators["vertical"].bringToFront();
+  
+  paper.view.draw();
 }
 
 function toggleCenterLines() {

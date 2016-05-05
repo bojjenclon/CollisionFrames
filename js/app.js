@@ -181,6 +181,8 @@ function panView(delta, speed) {
   
   paper.view.center = viewCenter;
   paper.view.draw();
+  
+  fixCenterLines();
 }
 
 function onMouseDown(event) {
@@ -500,6 +502,8 @@ function onMouseWheel(event) {
   view.center = view.center.add(offset);
   
   paper.view.draw();
+  
+  fixCenterLines();
 }
 
 function onKeyDown(event) {
@@ -562,27 +566,7 @@ function onResize(event) {
   
   $("#footerBackground").width(width);
   
-  // create lines to indicate the center of the canvas
-  
-  if (globals.centerIndicators["horizontal"]) {
-    globals.centerIndicators["horizontal"].remove();
-  }
-  if (globals.centerIndicators["vertical"]) {
-    globals.centerIndicators["vertical"].remove();
-  }
-  
-  globals.centerIndicators["horizontal"] = new Path.Line({
-    from: [-width / 2, 0],
-    to: [width / 2, 0],
-    strokeColor: "rgba(0, 0, 0, 0.1)"
-  });
-  globals.centerIndicators["horizontal"].bringToFront();
-  globals.centerIndicators["vertical"] = new Path.Line({
-    from: [0, -height / 2],
-    to: [0, height / 2],
-    strokeColor: "rgba(0, 0, 0, 0.1)"
-  });
-  globals.centerIndicators["vertical"].bringToFront();
+  fixCenterLines();
   
   fixModal();
   
