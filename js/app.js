@@ -46,6 +46,9 @@ var globals = {
   
   paths: [],
   
+  useIndividualZoomLevels: false,
+  
+  masterZoomLevel: 1,
   zoomLevels: [],
   
   selected: {
@@ -77,6 +80,7 @@ $(document).ready(function() {
   $("#paperCanvas").hide();
   hideControlButtons();
   
+  $("#zoomControls").hide();
   $("#originControls").hide();
   
   $("#shapeControls").hide();
@@ -144,6 +148,7 @@ $(document).ready(function() {
   
   $("#nameInput").keyup(onNameKeyUp);
   
+  $("#zoomLevelInput").keydown(onNumericInputKeyDown);
   $("#xOriginInput").keydown(onNumericInputKeyDown);
   $("#yOriginInput").keydown(onNumericInputKeyDown);
   $("#xPosInput").keydown(onNumericInputKeyDown);
@@ -151,12 +156,15 @@ $(document).ready(function() {
   $("#widthInput").keydown(onNumericInputKeyDown);
   $("#heightInput").keydown(onNumericInputKeyDown);
   
+  $("#zoomLevelInput").bind("input", onZoomLevelChange);
   $("#xOriginInput").bind("input", onXOriginChange);
   $("#yOriginInput").bind("input", onYOriginChange);
   $("#xPosInput").bind("input", onXPosChange);
   $("#yPosInput").bind("input", onYPosChange);
   $("#widthInput").bind("input", onWidthChange);
   $("#heightInput").bind("input", onHeightChange);
+  
+  $("#individualZoomLevels").change(onIndividualZoomLevelsChange);
   
   $(window).trigger("resize");
 });
@@ -495,7 +503,14 @@ function onMouseWheel(event) {
     return;
   }
   
-  globals.zoomLevels[globals.curBg] = newZoom;
+  if (globals.useIndividualZoomLevels) {
+    globals.zoomLevels[globals.curBg] = newZoom;
+  }
+  else {
+    globals.masterZoomLevel = newZoom;
+  }
+  
+  $("#zoomLevelInput").val(Math.round(newZoom * 100) / 100);
   
   var zoomScale = oldZoom / newZoom;
   var centerAdjust = viewPos.subtract(oldCenter);

@@ -47,7 +47,10 @@ function changeBackgroundRaster(index) {
     path.visible = true;
   }
   
-  paper.view.zoom = globals.zoomLevels[globals.curBg];
+  if (globals.useIndividualZoomLevels) {
+    paper.view.zoom = globals.zoomLevels[globals.curBg];
+  }
+  
   centerView();
   
   fixCenterLines();

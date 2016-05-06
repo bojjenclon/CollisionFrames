@@ -100,8 +100,34 @@
         </li>
         
       </span>
-            
+      
       <span id="imageControls">
+        
+        <div class="mui-divider"></div>
+        
+        <li>
+          <a class="mui--text-light mui--text-subhead mui--no-user-select" onclick="toggleZoomControls()">
+            Zoom <span class="mui-caret"></span>
+          </a>
+        </li>
+        
+        <li id="zoomControls" class="mui-panel" style="background-color: #444444; padding-top: 0;">
+          
+          <div class="mui-checkbox mui--no-user-select">
+            <label>
+              <input id="individualZoomLevels" type="checkbox" value="">
+              Individual Zoom Levels
+            </label>
+          </div>
+          
+          <div class="mui-divider"></div>
+          
+          <div class="mui-textfield">
+            <input type="number" id="zoomLevelInput" step="0.05" value="1" min="0.01">
+            <label>Zoom Level</label>
+          </div>
+          
+        </li>
         
         <div class="mui-divider"></div>
       

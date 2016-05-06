@@ -95,6 +95,25 @@ function onYPosChange(event) {
   });
 }
 
+function onZoomLevelChange(event) {
+  var newZoomLevel = parseFloat($("#zoomLevelInput").val());
+  
+  if (isNaN(newZoomLevel) || newZoomLevel === 0) {
+    return;
+  }
+  
+  if (globals.useIndividualZoomLevels) {
+    globals.zoomLevels[globals.curBg] = newZoomLevel;
+  }
+  else {
+    globals.masterZoomLevel = newZoomLevel;
+  }
+  
+  paper.view.zoom = newZoomLevel;
+  
+  paper.view.draw();
+}
+
 function onXOriginChange(event) { 
   var newX = parseFloat($("#xOriginInput").val());
   
@@ -133,6 +152,23 @@ function onNameKeyUp(event) {
   }
   
   globals.selected.path.name = $("#nameInput").val();
+}
+
+function onIndividualZoomLevelsChange(event) {
+  var enabled = $("#individualZoomLevels").is(":checked");
+  
+  if (enabled !== globals.useIndividualZoomLevels) {
+    if (enabled) {
+      paper.view.zoom = globals.zoomLevels[globals.curBg];
+    }
+    else {
+      paper.view.zoom = globals.masterZoomLevel;
+    }
+    
+    $("#zoomLevelInput").val(Math.round(paper.view.zoom * 100) / 100);
+    
+    globals.useIndividualZoomLevels = enabled;
+  }
 }
 
 function arrangeImages(changeToImage) { 
@@ -300,6 +336,10 @@ function closeProject() {
   globals.paths = [];
   globals.pathTypeCount = [];
   globals.zoomLevels = [];
+  globals.masterZoomLevel = 1;
+  
+  paper.view.zoom = 1;
+  $("#zoomLevelInput").val(1);
   
   $("#rightMenu").css("visibility", "hidden");
   hideControlButtons();
@@ -850,6 +890,10 @@ function togglePropertiesControls() {
 
 function togglePositionControls() {
   $("#positionControls").slideToggle();
+}
+
+function toggleZoomControls() {
+  $("#zoomControls").slideToggle();
 }
 
 function toggleOriginControls() {
