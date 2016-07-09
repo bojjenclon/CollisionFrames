@@ -1,5 +1,4 @@
-var remote = require("remote");
-var dialog = remote.dialog;
+var dialog = require("electron").remote.dialog;
 var fs = require("fs");
 
 function imageLoadHelper(fileNames, allImagesLoaded) {

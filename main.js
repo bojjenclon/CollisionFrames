@@ -1,5 +1,5 @@
-var app = require("app");
-var BrowserWindow = require("browser-window");
+var app = require("electron").app;
+var BrowserWindow = require("electron").BrowserWindow;
 
 var mainWindow = null;
 
@@ -18,7 +18,7 @@ app.on("ready", function() {
   // disable menu bar
   mainWindow.setMenu(null);
   
-  mainWindow.loadUrl("file://" + __dirname + "/index.html"); 
+  mainWindow.loadURL("file://" + __dirname + "/index.html"); 
   
   mainWindow.on("closed", function() {
     mainWindow = null;

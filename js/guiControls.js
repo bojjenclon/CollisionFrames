@@ -1,4 +1,4 @@
-var remote = require("remote");
+var remote = require("electron").remote;
 
 var arrowKeys = [37, 38, 39, 40];
 // all numbers + backspace
@@ -940,7 +940,7 @@ function adjustWindowConstraints() {
   var minWidth = calculateButtonsWidth();
   
   var win = remote.getCurrentWindow();
-  win.setMinimumSize(minWidth + 140, 0);
+  win.setMinimumSize(Math.floor(minWidth + 140), 0);
 }
 
 function removeHiddenAtStart() { 
